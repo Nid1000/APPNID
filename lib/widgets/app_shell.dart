@@ -59,7 +59,10 @@ class _AppShellState extends State<AppShell> {
         onOpenLatestOrder: _openLatestOrder,
       ),
       const StorePage(),
-      const MyOrdersPage(),
+      MyOrdersPage(
+        onGoHome: () => setState(() => _tab = 0),
+        onGoStore: () => setState(() => _tab = 1),
+      ),
       const PerfilPage(),
     ];
 

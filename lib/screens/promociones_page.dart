@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/cart_service.dart';
 import '../theme/app_colors.dart';
 import '../services/products_service.dart';
 import '../widgets/delicias_appbar.dart';
@@ -13,6 +14,7 @@ class PromocionesPage extends StatefulWidget {
 
 class _PromocionesPageState extends State<PromocionesPage> {
   final _service = ProductsService();
+  final _cart = CartService();
   bool _loading = true;
   List<Map<String, dynamic>> _products = [];
   String _error = '';
@@ -25,15 +27,44 @@ class _PromocionesPageState extends State<PromocionesPage> {
 
   Future<void> _load() async {
     try {
-      final products = await _service.fetchProducts(
+      final featuredProducts = await _service.fetchProducts(
         featuredOnly: true,
         limit: 10,
       );
+      final allProducts = await _service.fetchProducts(limit: 20);
+
+      final mergedProducts = <Map<String, dynamic>>[];
+      final seenIds = <String>{};
+
+      void addProducts(Iterable<Map<String, dynamic>> items) {
+        for (final item in items) {
+          final id = (item['id'] ?? '').toString();
+          final key =
+              id.isNotEmpty
+                  ? id
+                  : '${item['name']}-${item['price']}-${item['category']}';
+          if (seenIds.add(key)) {
+            mergedProducts.add(item);
+          }
+        }
+      }
+
+      addProducts(
+        featuredProducts.where(
+          (p) => p['featured'] == true || p['promotion'] == true,
+        ),
+      );
+      addProducts(
+        allProducts.where(
+          (p) =>
+              p['featured'] == true ||
+              p['promotion'] == true,
+        ),
+      );
+
       if (!mounted) return;
       setState(() {
-        _products = products
-            .where((p) => p['featured'] == true || p['promotion'] == true)
-            .toList();
+        _products = mergedProducts;
         _loading = false;
       });
     } catch (e) {
@@ -86,6 +117,9 @@ class _PromocionesPageState extends State<PromocionesPage> {
   Widget _promoCard(Map<String, dynamic> product) {
     final imageUrl = (product['imageUrl'] ?? '').toString();
     final price = ((product['price'] as num?) ?? 0).toDouble();
+    final isFeatured = product['featured'] == true;
+    final isPromotion = product['promotion'] == true;
+    final hasStock = ((product['stock'] as int?) ?? 0) > 0;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
@@ -127,9 +161,26 @@ class _PromocionesPageState extends State<PromocionesPage> {
                   Wrap(
                     spacing: 6,
                     runSpacing: 6,
-                    children: const [
-                      _PromoBadge(label: 'Destacado', color: Color(0xFFC07B12)),
-                      _PromoBadge(label: 'Web', color: Color(0xFF0B3D91)),
+                    children: [
+                      if (isFeatured)
+                        const _PromoBadge(
+                          label: 'Destacado',
+                          color: Color(0xFFC07B12),
+                        ),
+                      if (isPromotion)
+                        const _PromoBadge(
+                          label: 'Promocion',
+                          color: Color(0xFFD94B2B),
+                        ),
+                      if (hasStock)
+                        const _PromoBadge(
+                          label: 'Disponible',
+                          color: Color(0xFF2F855A),
+                        ),
+                      const _PromoBadge(
+                        label: 'Web',
+                        color: Color(0xFF0B3D91),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -151,6 +202,17 @@ class _PromocionesPageState extends State<PromocionesPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: hasStock ? () => _addToCart(product) : null,
+                      icon: const Icon(Icons.shopping_cart_checkout),
+                      label: Text(
+                        hasStock ? 'Agregar al carrito' : 'Sin stock',
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -158,6 +220,28 @@ class _PromocionesPageState extends State<PromocionesPage> {
         ),
       ),
     );
+  }
+
+  void _addToCart(Map<String, dynamic> product) {
+    _cart.addProduct({
+      'id': product['id'],
+      'name': product['name'],
+      'price': product['price'],
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${product['name']} agregado al carrito'),
+        action: SnackBarAction(
+          label: 'Ver carrito',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+
+    setState(() {});
   }
 }
 

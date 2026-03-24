@@ -4,7 +4,14 @@ import '../theme/app_colors.dart';
 import 'seguimiento_page.dart';
 
 class MyOrdersPage extends StatefulWidget {
-  const MyOrdersPage({super.key});
+  final VoidCallback? onGoHome;
+  final VoidCallback? onGoStore;
+
+  const MyOrdersPage({
+    super.key,
+    this.onGoHome,
+    this.onGoStore,
+  });
 
   @override
   State<MyOrdersPage> createState() => _MyOrdersPageState();
@@ -48,10 +55,10 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
               color: AppColors.card,
               borderRadius: BorderRadius.circular(24),
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Mis pedidos',
                   style: TextStyle(
                     fontSize: 22,
@@ -59,13 +66,37 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                     color: AppColors.text,
                   ),
                 ),
-                SizedBox(height: 6),
-                Text(
+                const SizedBox(height: 6),
+                const Text(
                   'Aqui ves los pedidos reales de tu cuenta en la web y puedes abrir su seguimiento.',
                   style: TextStyle(
                     color: AppColors.muted,
                     fontWeight: FontWeight.w600,
                   ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed:
+                            widget.onGoHome ??
+                            () => Navigator.maybePop(context),
+                        icon: const Icon(Icons.home_outlined),
+                        label: const Text('Ir a inicio'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed:
+                            widget.onGoStore ??
+                            () => Navigator.maybePop(context),
+                        icon: const Icon(Icons.storefront_outlined),
+                        label: const Text('Ir a tienda'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
