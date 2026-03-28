@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import {
   ColumnDef,
+  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
@@ -25,7 +26,12 @@ export type Comprobante = {
   total?: number;
   created_at?: string;
   archivos?: { pdf?: string; xml?: string; img?: string };
-  cliente?: { nombre?: string; razon_social?: string; ruc?: string; dni?: string } | any;
+  cliente?: {
+    nombre?: string;
+    razon_social?: string;
+    ruc?: string;
+    dni?: string;
+  } | null;
 };
 
 const formatPEN = (n: number = 0) => new Intl.NumberFormat("es-PE", { style: "currency", currency: "PEN" }).format(n);
@@ -47,7 +53,7 @@ export default function AdminComprobantesPage() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [tipoFilter, setTipoFilter] = useState<string>("");
   const [estadoFilter, setEstadoFilter] = useState<string>("");
-  const [sorting, setSorting] = useState<any>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
   useEffect(() => {
@@ -78,8 +84,8 @@ export default function AdminComprobantesPage() {
       accessorKey: "tipo",
       cell: ({ getValue }) => {
         const tipo = String(getValue() || "").toLowerCase();
-const variant = tipo === "factura" ? "info" : "success";
-return <Badge variant={variant} size="sm">{tipo || "-"}</Badge>;
+        const variant = tipo === "factura" ? "info" : "success";
+        return <Badge variant={variant} size="sm">{tipo || "-"}</Badge>;
       },
       filterFn: (row, _columnId, filterValue) => {
         const fv = String(filterValue || "").toLowerCase();
@@ -180,7 +186,7 @@ return <Badge variant={variant} size="sm">{tipo || "-"}</Badge>;
   // Actualizar data en la tabla cuando haya filtros manuales
   useEffect(() => {
     table.setOptions((prev) => ({ ...prev, data: filteredData }));
-  }, [filteredData]);
+  }, [filteredData, table]);
 
   if (!admin) {
     return (

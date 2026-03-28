@@ -7,6 +7,7 @@ import Skeleton from "@/components/ui/Skeleton";
 import { toast } from "react-hot-toast";
 import {
   ColumnDef,
+  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
@@ -29,7 +30,7 @@ export default function AdminCategoriasPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [sorting, setSorting] = useState<any>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [vista, setVista] = useState<"album" | "tabla">("album");
 

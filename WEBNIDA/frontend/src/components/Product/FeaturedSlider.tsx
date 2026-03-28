@@ -17,7 +17,7 @@ export default function FeaturedSlider() {
         const resp = await axios.get("/api/productos?destacado=true&limite=10");
         const list: Producto[] = Array.isArray(resp.data?.productos) ? resp.data.productos : [];
         setItems(list);
-      } catch (e) {
+      } catch {
         // silencioso
       }
     };

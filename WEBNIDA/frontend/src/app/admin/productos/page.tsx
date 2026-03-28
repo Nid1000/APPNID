@@ -22,6 +22,7 @@ import Skeleton from "@/components/ui/Skeleton";
 import { toast } from "react-hot-toast";
 import {
   ColumnDef,
+  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
@@ -43,19 +44,23 @@ type Producto = {
   stock?: number;
 };
 
+type CategoriaOption = { id: number; nombre: string };
+type CategoriaApiItem = Partial<CategoriaOption>;
+type AdminBadgeVariant = "muted" | "info" | "success" | "warning" | "danger";
+
 function AdminProductosPageContent() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [sorting, setSorting] = useState<any>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [mostrarSoloBajo, setMostrarSoloBajo] = useState(false);
   const LOW_STOCK_THRESHOLD = 5;
   const searchParams = useSearchParams();
   const router = useRouter();
   const [selectedCategoriaId, setSelectedCategoriaId] = useState<number | null>(null);
-  const [categoriasList, setCategoriasList] = useState<{ id: number; nombre: string }[]>([]);
+  const [categoriasList, setCategoriasList] = useState<CategoriaOption[]>([]);
 
   useEffect(() => {
     const sp = searchParams?.get('categoria');
@@ -68,9 +73,11 @@ function AdminProductosPageContent() {
       try {
         const res = await axios.get('/api/categorias');
         const data = res.data?.data || res.data?.categorias || res.data;
-        const list = Array.isArray(data) ? data : (Array.isArray(data?.categorias) ? data.categorias : []);
-        setCategoriasList(list.map((c: any) => ({ id: Number(c.id), nombre: String(c.nombre || '') })));
-      } catch (e) {
+        const list = Array.isArray(data)
+          ? (data as CategoriaApiItem[])
+          : (Array.isArray(data?.categorias) ? (data.categorias as CategoriaApiItem[]) : []);
+        setCategoriasList(list.map((c) => ({ id: Number(c.id), nombre: String(c.nombre || "") })));
+      } catch {
         // no-op
       }
     };
@@ -140,7 +147,7 @@ function AdminProductosPageContent() {
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           {(() => {
-            const imgSrc = normalizeProductImageSrc(row.original.imagen as any);
+            const imgSrc = normalizeProductImageSrc(row.original.imagen);
             return imgSrc ? (
               <div className="h-14 w-14 overflow-hidden rounded-md border border-slate-200 bg-white flex-shrink-0">
                 <Image
@@ -182,9 +189,10 @@ function AdminProductosPageContent() {
       accessorKey: "stock",
       cell: ({ getValue }) => {
         const s = Number(getValue() || 0);
-        const variant = s === 0 ? "danger" : s <= LOW_STOCK_THRESHOLD ? "warning" : "success";
+        const variant: AdminBadgeVariant =
+          s === 0 ? "danger" : s <= LOW_STOCK_THRESHOLD ? "warning" : "success";
         return (
-          <Badge variant={variant as any} size="md" className="min-w-[100px] justify-center">
+          <Badge variant={variant} size="md" className="min-w-[100px] justify-center">
             {s === 0 ? "Agotado" : `${s} en stock`}
           </Badge>
         );

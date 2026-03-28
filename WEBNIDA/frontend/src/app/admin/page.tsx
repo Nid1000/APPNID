@@ -8,6 +8,7 @@ import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, PieChart, 
 import { motion } from "framer-motion";
 
 type Comprobante = { tipo?: "boleta" | "factura"; total?: number; created_at?: string };
+type ComprobantesResponse = { comprobantes?: Comprobante[] };
 
 export default function AdminDashboardPage() {
   const [mounted, setMounted] = useState(false);
@@ -51,8 +52,9 @@ export default function AdminDashboardPage() {
           return 0;
         };
 
-        const compDataRaw = Array.isArray((compRes.data as any)?.comprobantes)
-          ? ((compRes.data as any).comprobantes as Comprobante[])
+        const compResData = compRes.data as ComprobantesResponse | Comprobante[];
+        const compDataRaw = Array.isArray((compResData as ComprobantesResponse)?.comprobantes)
+          ? (((compResData as ComprobantesResponse).comprobantes ?? []) as Comprobante[])
           : Array.isArray(compRes.data)
           ? (compRes.data as Comprobante[])
           : [];

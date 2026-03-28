@@ -14,6 +14,11 @@ type Categoria = {
   activo?: boolean;
 };
 
+type CategoriaApiResponse = Partial<Categoria> & {
+  error?: string;
+  message?: string;
+};
+
 export default function EditarCategoriaPage() {
   const params = useParams();
   const router = useRouter();
@@ -80,7 +85,7 @@ export default function EditarCategoriaPage() {
         }
       }
       // 2) luego actualizar campos de texto SIN sobreescribir imagen si se subió archivo o si el campo está vacío
-      const payload: Record<string, any> = {
+      const payload: Record<string, string | null> = {
         nombre: form.nombre,
         descripcion: form.descripcion || null,
       };
@@ -96,7 +101,9 @@ export default function EditarCategoriaPage() {
       router.push('/admin/categorias');
     } catch (e: unknown) {
       const errMsg = axios.isAxiosError(e)
-        ? ((e.response?.data as { message?: string; error?: string })?.message || (e.response?.data as any)?.error || e.message)
+        ? ((e.response?.data as CategoriaApiResponse | undefined)?.message ||
+            (e.response?.data as CategoriaApiResponse | undefined)?.error ||
+            e.message)
         : e instanceof Error
         ? e.message
         : 'No se pudo actualizar la categoría';

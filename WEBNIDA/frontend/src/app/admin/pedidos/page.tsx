@@ -1,13 +1,14 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { formatPEN } from "@/utils/currency";
-import { Table, THead, Th, TBody, Tr, Td, buttonClasses, StatusBadge } from "@/design/admin";
+import { Table, THead, Th, TBody, Tr, Td, buttonClasses } from "@/design/admin";
 import Skeleton from "@/components/ui/Skeleton";
 import { toast } from "react-hot-toast";
 import {
   ColumnDef,
+  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
@@ -43,13 +44,13 @@ export default function AdminPedidosPage() {
   const [estadoFilter, setEstadoFilter] = useState<string>("");
   const [desde, setDesde] = useState<string>("");
   const [hasta, setHasta] = useState<string>("");
-  const [sorting, setSorting] = useState<any>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
-  const fetchPedidos = async () => {
+  const fetchPedidos = useCallback(async () => {
     try {
       setLoading(true);
-      const params: any = { pagina: 1, limite: 300 };
+      const params: Record<string, string | number> = { pagina: 1, limite: 300 };
       if (estadoFilter) params.estado = estadoFilter;
       if (desde) params.desde = desde;
       if (hasta) params.hasta = hasta;
@@ -66,7 +67,7 @@ export default function AdminPedidosPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [desde, estadoFilter, globalFilter, hasta]);
 
   useEffect(() => {
     if (!admin) {
@@ -75,12 +76,11 @@ export default function AdminPedidosPage() {
       return;
     }
     fetchPedidos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [estadoFilter, desde, hasta]);
+  }, [admin, fetchPedidos]);
 
-  const marcarEstado = async (id: number, estado: Pedido["estado"]) => {
+  const marcarEstado = useCallback(async (id: number, estado: Pedido["estado"]) => {
     try {
-      const res = await axios.patch(`/api/pedidos/admin/${id}/estado`, { estado });
+      await axios.patch(`/api/pedidos/admin/${id}/estado`, { estado });
       if (estado === "listo") {
         toast.success(`Pedido ${id} marcado como listo y notificación enviada a la app`);
       } else {
@@ -94,7 +94,7 @@ export default function AdminPedidosPage() {
         : 'No se pudo actualizar el estado del pedido';
       toast.error(msg);
     }
-  };
+  }, [fetchPedidos]);
 
   const columns = useMemo<ColumnDef<Pedido>[]>(() => [
     {
@@ -180,7 +180,7 @@ export default function AdminPedidosPage() {
         );
       },
     },
-  ], []);
+  ], [marcarEstado]);
 
   const table = useReactTable({
     data: pedidos,

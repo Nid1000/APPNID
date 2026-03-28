@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";

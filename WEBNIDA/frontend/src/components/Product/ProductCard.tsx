@@ -38,7 +38,6 @@ export default function ProductCard({ producto, onAddToCart, isDisabled }: Props
       transition={{ duration: 0.2 }}
     >
       <div className="relative aspect-square group overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <motion.img
           src={getImageSrc({ imagen: producto.imagen }, { width: 800 })}
           alt={producto.nombre}

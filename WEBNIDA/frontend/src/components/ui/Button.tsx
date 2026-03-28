@@ -21,6 +21,12 @@ const sizeClasses = {
   lg: "px-5 py-2.5 text-base",
 };
 
+type AsChildProps = {
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  "aria-disabled"?: boolean;
+};
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = "primary", size = "md", loading, className = "", children, asChild = false, disabled, ...props },
   ref,
@@ -29,10 +35,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
 
   // AsChild: permite usar Link o 'a' conservando comportamiento básico
   if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement<{ className?: string; onClick?: React.MouseEventHandler; ariaDisabled?: boolean }>;
+    const child = children as React.ReactElement<AsChildProps>;
     const baseProps = child.props;
     const mergedClassName = `${base} ${baseProps.className || ""}`.trim();
-    const clonedProps: any = {
+    const clonedProps: AsChildProps = {
       className: mergedClassName,
       onClick: props.onClick ?? baseProps.onClick,
     };

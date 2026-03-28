@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import type { AxiosError } from "axios";
 import { buttonClasses } from "@/design/admin";
 import { toast } from "react-hot-toast";
 
@@ -15,6 +16,8 @@ export default function AdminConfiguracionPage() {
   const [notifTargetId, setNotifTargetId] = useState('');
   const [notifUserId, setNotifUserId] = useState('');
   const [sending, setSending] = useState(false);
+
+  type ApiErrorResponse = { message?: string };
 
   useEffect(() => {
     // Cargar configuración básica desde localStorage (placeholder hasta tener API específica)
@@ -60,8 +63,9 @@ export default function AdminConfiguracionPage() {
       setNotifMessage('');
       setNotifTargetId('');
       setNotifUserId('');
-    } catch (e: any) {
-      toast.error(e?.response?.data?.message || 'No se pudo enviar la notificacion');
+    } catch (e: unknown) {
+      const error = e as AxiosError<ApiErrorResponse>;
+      toast.error(error.response?.data?.message || error.message || 'No se pudo enviar la notificacion');
     } finally {
       setSending(false);
     }

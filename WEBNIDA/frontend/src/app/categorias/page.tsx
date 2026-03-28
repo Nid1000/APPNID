@@ -16,7 +16,7 @@ export default function CategoriasPage() {
         const data = Array.isArray(res.data?.categorias) ? res.data.categorias : res.data;
         setCategorias(Array.isArray(data) ? data : []);
         setError(null);
-      } catch (e: unknown) {
+      } catch {
         setError("No se pudieron cargar las categorías");
       } finally {
         setLoading(false);

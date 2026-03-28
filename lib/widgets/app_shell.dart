@@ -69,15 +69,21 @@ class _AppShellState extends State<AppShell> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          _tab == 0
-              ? 'Inicio'
-              : _tab == 1
-              ? 'Tienda'
-              : _tab == 2
-              ? 'Mis pedidos'
-              : 'Perfil',
+        centerTitle: false,
+        titleSpacing: 12,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset('assets/logos/delicias.png', height: 26),
+            const SizedBox(width: 8),
+            const Text(
+              'Delicias',
+              style: TextStyle(
+                color: AppColors.text,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
         ),
         actions: [
           Padding(

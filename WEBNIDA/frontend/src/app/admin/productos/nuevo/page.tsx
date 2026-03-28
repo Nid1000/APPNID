@@ -39,7 +39,6 @@ export default function NuevoProductoPage() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormInput, unknown, FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {

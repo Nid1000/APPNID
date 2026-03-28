@@ -7,6 +7,7 @@ import Skeleton from "@/components/ui/Skeleton";
 import { toast } from "react-hot-toast";
 import {
   ColumnDef,
+  type SortingState,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
@@ -37,7 +38,7 @@ export default function AdminUsuariosPage() {
   const [error, setError] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
   const [estadoFilter, setEstadoFilter] = useState<string>("");
-  const [sorting, setSorting] = useState<any>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
   useEffect(() => {

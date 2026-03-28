@@ -39,8 +39,7 @@ export default function OrdersPage() {
   const [error, setError] = useState<string | null>(null);
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [pagina, setPagina] = useState(1);
-  const [limite, setLimite] = useState(10);
-  const [total, setTotal] = useState(0);
+  const limite = 10;
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [selected, setSelected] = useState<{
     pedido: Pedido | null;
@@ -59,7 +58,6 @@ export default function OrdersPage() {
   // Añadir estado y referencias para visualización de PDF
   const [pdfModal, setPdfModal] = useState<{ open: boolean; src?: string; titulo?: string }>({ open: false });
   const pdfModalCloseBtnRef = useRef<HTMLButtonElement | null>(null);
-  const [pdfModalFocusEl, setPdfModalFocusEl] = useState<HTMLElement | null>(null);
   const currency = useMemo(
     () => (n: number) => new Intl.NumberFormat("es-PE", { style: "currency", currency: "PEN" }).format(n),
     []
@@ -76,7 +74,6 @@ export default function OrdersPage() {
       const resp = await axios.get(`/api/pedidos/mis-pedidos?pagina=${pagina}&limite=${limite}`);
       const items = Array.isArray(resp.data?.pedidos) ? resp.data.pedidos : [];
       setPedidos(items);
-      setTotal(Number(resp.data?.total ?? items.length));
       setTotalPaginas(Number(resp.data?.totalPaginas ?? Math.ceil((resp.data?.total ?? items.length) / limite)));
     } catch (err: unknown) {
       const msg = axios.isAxiosError(err)
@@ -98,7 +95,7 @@ export default function OrdersPage() {
       const resp = await axios.get("/api/facturacion/mis-comprobantes");
       const list = Array.isArray(resp.data?.comprobantes) ? resp.data?.comprobantes : [];
       setComprobantes(list);
-    } catch (err) {
+    } catch {
       console.warn("No se pudieron cargar comprobantes");
     }
   }, [isAuthenticated]);
@@ -428,8 +425,7 @@ export default function OrdersPage() {
                           <>
                             <button
                               className="px-3 py-1.5 rounded border hover:bg-gray-50"
-                              onClick={(e) => {
-                                setPdfModalFocusEl(e.currentTarget);
+                              onClick={() => {
                                 setPdfModal({ open: true, src: `${axios.defaults.baseURL || ""}${c.archivos!.pdf}`, titulo: `${c.tipo} ${c.serie}-${c.numero}` });
                               }}
                             >

@@ -13,6 +13,16 @@ import { toast } from "react-hot-toast";
 import ThemeToggle from "./ThemeToggle";
 
 type CategoriaNavbar = { id: number; nombre: string };
+type NotificationItem = { id: number; title: string; body: string; route: string; targetId: string };
+type NotificationApiItem = Partial<{
+  id: number | string;
+  title: string;
+  titulo: string;
+  body: string;
+  mensaje: string;
+  route: string;
+  targetId: string | number;
+}>;
 
 const normalizeCategorias = (payload: unknown): CategoriaNavbar[] => {
   if (Array.isArray(payload)) return payload as CategoriaNavbar[];
@@ -56,7 +66,7 @@ export default function Navbar() {
   const [search, setSearch] = useState("");
   const [categorias, setCategorias] = useState<CategoriaNavbar[]>([]);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [notifications, setNotifications] = useState<Array<{ id: number; title: string; body: string; route: string; targetId: string }>>([]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const shownToastIdsRef = useRef<Set<number>>(new Set());
 
   // Cierra el menú al cambiar de ruta
@@ -84,7 +94,7 @@ export default function Navbar() {
 
         const productosRes = await axios.get("/api/productos?limite=100");
         setCategorias(deriveCategoriasFromProductos(productosRes.data));
-      } catch (e) {
+      } catch {
         // Silenciar error en navbar; la tienda sigue funcionando aunque no cargue la barra de categorías
         console.debug("Navbar: no se pudieron cargar categorías");
       }
@@ -104,13 +114,15 @@ export default function Navbar() {
         const res = await axios.get("/api/notificaciones/pendientes", {
           params: { canal: "web" },
         });
-        const items = Array.isArray(res.data?.notificaciones) ? res.data.notificaciones : [];
-        const normalized = items.map((item: any) => ({
+        const items: NotificationApiItem[] = Array.isArray(res.data?.notificaciones)
+          ? (res.data.notificaciones as NotificationApiItem[])
+          : [];
+        const normalized: NotificationItem[] = items.map((item) => ({
           id: Number(item.id || 0),
           title: String(item.title || item.titulo || "Mensaje"),
           body: String(item.body || item.mensaje || ""),
           route: String(item.route || ""),
-          targetId: String(item.targetId || ""),
+          targetId: String(item.targetId ?? ""),
         }));
 
         setNotifications(normalized);

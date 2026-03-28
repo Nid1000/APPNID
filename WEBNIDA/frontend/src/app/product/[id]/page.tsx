@@ -247,7 +247,7 @@ export default function ProductDetailPage() {
             <motion.div role="dialog" aria-modal="true" aria-label="Imagen ampliada del producto" className="bg-white rounded-lg shadow-xl max-w-4xl w-full overflow-hidden" initial={{ scale: 0.96, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.96, y: -8 }} onClick={(e) => e.stopPropagation()}>
               <div className="p-3 border-b flex items-center justify-between">
                 <div className="font-semibold">{producto.nombre}</div>
-                <Button ref={imgCloseBtnRef as any} variant="outline" size="sm" onClick={() => setImgModal({ open: false })}>Cerrar</Button>
+                <Button ref={imgCloseBtnRef} variant="outline" size="sm" onClick={() => setImgModal({ open: false })}>Cerrar</Button>
               </div>
               <div className="p-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

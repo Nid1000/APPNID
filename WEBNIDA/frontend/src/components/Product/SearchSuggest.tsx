@@ -3,6 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 type Suggest = { id: number; nombre: string; precio?: number; imagen?: string | null };
+type ProductoSuggestApi = Partial<{
+  id: number | string;
+  nombre: string;
+  precio: number | string;
+  imagen: string | null;
+}>;
 
 type Props = {
   value: string;
@@ -39,13 +45,18 @@ export default function SearchSuggest({ value, onChange, onSelect, placeholder }
       try {
         const resp = await axios.get(`/api/productos?buscar=${encodeURIComponent(q)}&limite=5`);
         const list: Suggest[] = Array.isArray(resp.data?.productos)
-          ? resp.data.productos.map((p: any) => ({ id: p.id, nombre: String(p.nombre || ""), precio: Number(p.precio || 0), imagen: p.imagen || null }))
+          ? (resp.data.productos as ProductoSuggestApi[]).map((p) => ({
+              id: Number(p.id ?? 0),
+              nombre: String(p.nombre || ""),
+              precio: Number(p.precio || 0),
+              imagen: p.imagen || null,
+            }))
           : [];
         if (!cancelled) {
           setSuggests(list);
           setOpen(list.length > 0);
         }
-      } catch (e) {
+      } catch {
         if (!cancelled) {
           setSuggests([]);
           setOpen(false);

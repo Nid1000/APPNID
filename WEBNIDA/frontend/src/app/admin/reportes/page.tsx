@@ -12,6 +12,7 @@ const formatPEN = (n: number = 0) => new Intl.NumberFormat("es-PE", { style: "cu
 type ChartPoint = { label: string; total: number };
 type TopProducto = { producto_id: number; nombre: string; imagen?: string | null; cantidad: number; subtotal: number };
 type TopCategoria = { categoria_id: number; nombre: string; cantidad: number; subtotal: number };
+type ChartApiItem = Partial<{ semana: string; mes: string; fecha: string; total: number | string }>;
 
 export default function AdminReportesPage() {
   const { isAdmin } = useAuth();
@@ -32,7 +33,7 @@ export default function AdminReportesPage() {
     try {
       setLoading(true);
       setError(null);
-      const params: any = {};
+      const params: Record<string, string> = {};
       if (desde) params.desde = desde;
       if (hasta) params.hasta = hasta;
       const ventasReq = modo === "semanal"
@@ -46,7 +47,7 @@ export default function AdminReportesPage() {
         axios.get("/api/reportes/admin/top-categorias", { params: { ...params, limite: 8 } }),
       ]);
       const vData = Array.isArray(vRes.data?.data) ? vRes.data.data : [];
-      const chartData: ChartPoint[] = vData.map((item: any) => {
+      const chartData: ChartPoint[] = (vData as ChartApiItem[]).map((item) => {
         if (modo === "semanal") return { label: String(item.semana), total: Number(item.total || 0) };
         if (modo === "mensual") return { label: String(item.mes), total: Number(item.total || 0) };
         return { label: String(item.fecha), total: Number(item.total || 0) };
