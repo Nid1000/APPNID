@@ -152,6 +152,16 @@ class _LoginPageState extends State<LoginPage> {
                       fontSize: 12,
                     ),
                   ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Si la cuenta no existe en la web, la app mostrara: "No es usted o la cuenta no existe en la web".',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 11,
+                      height: 1.35,
+                    ),
+                  ),
                 ],
               ),
             ),

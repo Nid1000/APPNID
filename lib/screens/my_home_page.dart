@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             const SizedBox(height: 4),
                             const Text(
-                              'Sigue tus pedidos y descubre las novedades de nuestra panaderia.',
+                              'Revisa tus pedidos, recibe avisos y mantente al dia con todo lo nuevo de nuestra panaderia.',
                               style: TextStyle(
                                 color: AppColors.muted,
                                 fontWeight: FontWeight.w600,
@@ -94,16 +94,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       Expanded(
                         child: _QuickStat(
                           icon: Icons.sync,
-                          label: 'Tu cuenta siempre contigo',
-                          value: 'Web + app',
+                          label: 'Tu cuenta se sincroniza entre la web y la app.',
+                          value: 'Todo en un solo lugar',
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: _QuickStat(
                           icon: Icons.notifications_active_outlined,
-                          label: 'Promociones y avisos',
-                          value: 'Novedades para ti',
+                          label: 'Recibe promociones, alertas y novedades pensadas para ti.',
+                          value: 'Siempre al tanto',
                         ),
                       ),
                     ],

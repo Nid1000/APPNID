@@ -64,6 +64,66 @@ class AuthService {
 
   Future<void> logout() => _session.clear();
 
+  Future<AppUser> fetchProfile() async {
+    try {
+      final res = await _api.get(ApiEndpoints.me);
+      if (res.statusCode != 200) {
+        throw Exception('No se pudo cargar el perfil.');
+      }
+
+      final data = _normalize(res.data);
+      final currentSession = await _session.getUser();
+      final profile = AppUser.fromApi({
+        ...data,
+        'token': currentSession?.token ?? '',
+      });
+      await _session.saveUser(profile);
+      return profile;
+    } on DioException catch (e) {
+      throw Exception(_errorMessage(e, fallback: 'No se pudo cargar el perfil.'));
+    }
+  }
+
+  Future<AppUser> updateProfile({
+    required String nombre,
+    required String apellido,
+    required String telefono,
+    required String direccion,
+    required String distrito,
+    required String numeroCasa,
+  }) async {
+    try {
+      final res = await _api.put(
+        ApiEndpoints.me,
+        data: {
+          'nombre': nombre,
+          'apellido': apellido,
+          'telefono': telefono,
+          'direccion': direccion,
+          'distrito': distrito,
+          'numero_casa': numeroCasa,
+        },
+      );
+
+      if (res.statusCode != 200) {
+        throw Exception('No se pudo actualizar el perfil.');
+      }
+
+      final data = _normalize(res.data);
+      final currentSession = await _session.getUser();
+      final profile = AppUser.fromApi({
+        ...data,
+        'token': currentSession?.token ?? '',
+      });
+      await _session.saveUser(profile);
+      return profile;
+    } on DioException catch (e) {
+      throw Exception(
+        _errorMessage(e, fallback: 'No se pudo actualizar el perfil.'),
+      );
+    }
+  }
+
   Map<String, dynamic> _normalize(dynamic body) {
     if (body is Map<String, dynamic>) return body;
     if (body is String) return jsonDecode(body) as Map<String, dynamic>;
@@ -95,13 +155,22 @@ class AuthService {
   }
 
   String _errorMessage(DioException error, {required String fallback}) {
+    final statusCode = error.response?.statusCode ?? 0;
     final response = error.response?.data;
     if (response is Map<String, dynamic>) {
       final message =
           response['message'] ?? response['error'] ?? response['msg'];
-      if (message is String && message.trim().isNotEmpty) return message;
+      if (message is String && message.trim().isNotEmpty) {
+        return _friendlyAuthMessage(message, statusCode: statusCode);
+      }
     }
-    if (response is String && response.trim().isNotEmpty) return response;
+    if (response is String && response.trim().isNotEmpty) {
+      return _friendlyAuthMessage(response, statusCode: statusCode);
+    }
+
+    if (statusCode == 400 || statusCode == 401 || statusCode == 403 || statusCode == 404) {
+      return 'No es usted o la cuenta no existe en la web. Ingrese con un usuario registrado en el sistema web.';
+    }
 
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
@@ -113,5 +182,28 @@ class AuthService {
       default:
         return fallback;
     }
+  }
+
+  String _friendlyAuthMessage(String message, {required int statusCode}) {
+    final normalized = message.toLowerCase();
+    final looksLikeInvalidUser =
+        statusCode == 400 ||
+        statusCode == 401 ||
+        statusCode == 403 ||
+        statusCode == 404 ||
+        normalized.contains('credencial') ||
+        normalized.contains('incorrect') ||
+        normalized.contains('inválid') ||
+        normalized.contains('invalid') ||
+        normalized.contains('no existe') ||
+        normalized.contains('no encontrado') ||
+        normalized.contains('not found') ||
+        normalized.contains('unauthorized');
+
+    if (looksLikeInvalidUser) {
+      return 'No es usted o la cuenta no existe en la web. Ingrese con un usuario registrado en el sistema web.';
+    }
+
+    return message;
   }
 }

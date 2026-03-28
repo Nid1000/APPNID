@@ -6,6 +6,7 @@ class AppUser {
   final String telefono;
   final String direccion;
   final String distrito;
+  final String numeroCasa;
   final String token;
 
   const AppUser({
@@ -16,6 +17,7 @@ class AppUser {
     required this.telefono,
     required this.direccion,
     required this.distrito,
+    required this.numeroCasa,
     required this.token,
   });
 
@@ -27,6 +29,8 @@ class AppUser {
   factory AppUser.fromApi(Map<String, dynamic> data) {
     final user = (data['user'] is Map<String, dynamic>)
         ? data['user'] as Map<String, dynamic>
+        : (data['usuario'] is Map<String, dynamic>)
+        ? data['usuario'] as Map<String, dynamic>
         : <String, dynamic>{};
 
     return AppUser(
@@ -37,6 +41,7 @@ class AppUser {
       telefono: (user['telefono'] ?? data['telefono'] ?? '').toString(),
       direccion: (user['direccion'] ?? data['direccion'] ?? '').toString(),
       distrito: (user['distrito'] ?? data['distrito'] ?? '').toString(),
+      numeroCasa: (user['numero_casa'] ?? data['numero_casa'] ?? '').toString(),
       token: (data['token'] ?? '').toString(),
     );
   }
@@ -50,6 +55,7 @@ class AppUser {
         'telefono': telefono,
         'direccion': direccion,
         'distrito': distrito,
+        'numeroCasa': numeroCasa,
         'token': token,
       };
 }

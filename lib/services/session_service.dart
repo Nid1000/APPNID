@@ -24,6 +24,7 @@ class SessionService {
       telefono: prefs.getString('telefono') ?? '',
       direccion: prefs.getString('direccion') ?? '',
       distrito: prefs.getString('distrito') ?? '',
+      numeroCasa: prefs.getString('numeroCasa') ?? '',
       token: token,
     );
   }
