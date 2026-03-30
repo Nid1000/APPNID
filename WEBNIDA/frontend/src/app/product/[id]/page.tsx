@@ -88,7 +88,7 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto p-6">
-        <p className="text-sm text-gray-600">Cargando producto...</p>
+        <p className="text-sm text-[var(--color-muted)]">Cargando producto...</p>
       </div>
     );
   }
@@ -123,7 +123,7 @@ export default function ProductDetailPage() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Breadcrumb mínimo */}
-      <nav aria-label="breadcrumb" className="text-sm text-gray-600 mb-3">
+      <nav aria-label="breadcrumb" className="mb-3 text-sm text-[var(--color-muted)]">
         <span>
           <Link href="/" className="hover:underline">Inicio</Link> / <Link href="/products" className="hover:underline">Productos</Link> / {producto.nombre}
         </span>
@@ -132,7 +132,7 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Imagen del producto */}
         <div>
-          <div className="relative rounded-lg overflow-hidden bg-gray-100">
+          <div className="relative overflow-hidden rounded-lg bg-[var(--surface-contrast)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={getImageSrc(producto, { width: 1024 })}
@@ -155,9 +155,9 @@ export default function ProductDetailPage() {
         <div>
           <h1 className="text-2xl font-semibold">{producto.nombre}</h1>
           <p className="text-xl font-bold mt-1">{formatPEN(producto.precio)}</p>
-          {producto.descripcion && <p className="text-gray-700 mt-2">{producto.descripcion}</p>}
+          {producto.descripcion && <p className="mt-2 text-[var(--color-text)]">{producto.descripcion}</p>}
           {producto.categoria_nombre && (
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="mt-2 text-sm text-[var(--color-muted)]">
               <strong>Categoría:</strong> {producto.categoria_nombre}
             </p>
           )}
@@ -184,7 +184,7 @@ export default function ProductDetailPage() {
                   }}
                   min={1}
                   max={stockDisponible}
-                  className="w-16 text-center border rounded px-2 py-1"
+                  className="theme-input w-16 rounded border px-2 py-1 text-center"
                 />
                 <Button aria-label="Aumentar cantidad" variant="outline" size="sm" onClick={() => setCantidad(Math.min(stockDisponible, cantidad + 1))} disabled={cantidad >= stockDisponible}>
                   +
@@ -201,7 +201,7 @@ export default function ProductDetailPage() {
             </div>
           ) : (
             <div className="mt-4">
-              <div role="alert" className="p-3 rounded border bg-gray-50 text-gray-800">Este producto está temporalmente agotado.</div>
+              <div role="alert" className="theme-surface-strong rounded border p-3 text-[var(--color-text)]">Este producto está temporalmente agotado.</div>
               <Button asChild variant="ghost" className="mt-2">
                 <Link href="/products">Ver otros productos</Link>
               </Button>
@@ -212,7 +212,7 @@ export default function ProductDetailPage() {
           {producto.ingredientes && (
             <div className="mt-5">
               <strong>Ingredientes:</strong>
-              <p className="text-sm text-gray-700 mt-1 whitespace-pre-line">{producto.ingredientes}</p>
+              <p className="mt-1 whitespace-pre-line text-sm text-[var(--color-text)]">{producto.ingredientes}</p>
             </div>
           )}
         </div>
@@ -224,12 +224,12 @@ export default function ProductDetailPage() {
           <h3 className="text-lg font-semibold mb-3">Productos Relacionados</h3>
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {relacionados.map((p) => (
-              <li key={p.id} className="border rounded-lg overflow-hidden bg-[var(--surface)]">
+              <li key={p.id} className="theme-surface-strong overflow-hidden rounded-lg border">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={getImageSrc(p, { width: 600 })} alt={p.nombre} className="w-full h-32 object-cover" />
                 <div className="p-3">
                   <p className="font-medium">{p.nombre}</p>
-                  <p className="text-sm text-gray-600">{formatPEN(p.precio)}</p>
+                  <p className="text-sm text-[var(--color-muted)]">{formatPEN(p.precio)}</p>
                   <Button asChild variant="ghost" size="sm" className="mt-2">
                     <Link href={`/product/${p.id}`}>Ver detalle</Link>
                   </Button>
@@ -244,7 +244,7 @@ export default function ProductDetailPage() {
       <AnimatePresence>
         {imgModal.open && (
           <motion.div className="fixed inset-0 z-[1000] bg-black/60 flex items-center justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setImgModal({ open: false })}>
-            <motion.div role="dialog" aria-modal="true" aria-label="Imagen ampliada del producto" className="bg-white rounded-lg shadow-xl max-w-4xl w-full overflow-hidden" initial={{ scale: 0.96, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.96, y: -8 }} onClick={(e) => e.stopPropagation()}>
+            <motion.div role="dialog" aria-modal="true" aria-label="Imagen ampliada del producto" className="theme-surface-strong max-w-4xl w-full overflow-hidden rounded-lg shadow-xl" initial={{ scale: 0.96, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.96, y: -8 }} onClick={(e) => e.stopPropagation()}>
               <div className="p-3 border-b flex items-center justify-between">
                 <div className="font-semibold">{producto.nombre}</div>
                 <Button ref={imgCloseBtnRef} variant="outline" size="sm" onClick={() => setImgModal({ open: false })}>Cerrar</Button>

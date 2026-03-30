@@ -57,42 +57,42 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto w-full mt-10 p-6 border rounded-lg bg-white shadow-sm">
+    <div className="theme-surface-strong mx-auto mt-10 w-full max-w-lg rounded-lg border p-6 shadow-sm">
       <h1 className="text-2xl font-semibold mb-4">Registrarse</h1>
       {error && <div className="mb-4 p-3 rounded bg-red-100 text-red-700 text-sm">{error}</div>}
 
       <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Nombre</label>
-          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required className="w-full border rounded px-3 py-2" />
+          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required className="theme-input w-full rounded border px-3 py-2" />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Apellido</label>
-          <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required className="w-full border rounded px-3 py-2" />
+          <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required className="theme-input w-full rounded border px-3 py-2" />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-1">Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full border rounded px-3 py-2" />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="theme-input w-full rounded border px-3 py-2" />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-1">Contraseña</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full border rounded px-3 py-2" />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="theme-input w-full rounded border px-3 py-2" />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Teléfono</label>
-          <input type="tel" value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 9))} className="w-full border rounded px-3 py-2" placeholder="987654321" />
+          <input type="tel" value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 9))} className="theme-input w-full rounded border px-3 py-2" placeholder="987654321" />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Número de casa</label>
-          <input type="text" value={numeroCasa} onChange={(e) => setNumeroCasa(e.target.value)} className="w-full border rounded px-3 py-2" placeholder="Ej: 350" required />
+          <input type="text" value={numeroCasa} onChange={(e) => setNumeroCasa(e.target.value)} className="theme-input w-full rounded border px-3 py-2" placeholder="Ej: 350" required />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-1">Dirección</label>
-          <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} className="w-full border rounded px-3 py-2" placeholder="Av. / Jr. / Calle" required />
+          <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} className="theme-input w-full rounded border px-3 py-2" placeholder="Av. / Jr. / Calle" required />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-1">Distrito</label>
-          <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="w-full border rounded px-3 py-2 bg-white" required disabled={loadingDistritos}>
+          <select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="theme-input w-full rounded border px-3 py-2" required disabled={loadingDistritos}>
             <option value="">{loadingDistritos ? "Cargando distritos..." : "Selecciona un distrito"}</option>
             {distritos.map((item) => (
               <option key={item.id} value={item.nombre}>{item.nombre}</option>
@@ -100,13 +100,13 @@ export default function RegisterPage() {
           </select>
         </div>
         <div className="md:col-span-2">
-          <button type="submit" disabled={loading} className="w-full bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-900 disabled:opacity-60">
+          <button type="submit" disabled={loading} className="w-full rounded px-4 py-2 text-white disabled:opacity-60" style={{ backgroundColor: "var(--color-button)" }}>
             {loading ? "Registrando..." : "Registrarse"}
           </button>
         </div>
       </form>
 
-      <p className="text-sm text-gray-600 mt-4">¿Ya tienes cuenta? <a href="/login" className="text-blue-600 hover:underline">Inicia sesión</a></p>
+      <p className="mt-4 text-sm text-[var(--color-muted)]">¿Ya tienes cuenta? <a href="/login" className="text-[var(--color-secondary)] hover:underline">Inicia sesión</a></p>
     </div>
   );
 }

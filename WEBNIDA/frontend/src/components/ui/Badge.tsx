@@ -12,8 +12,8 @@ const sizeMap: Record<NonNullable<BadgeProps["size"]>, string> = {
 };
 
 const variantMap: Record<NonNullable<BadgeProps["variant"]>, string> = {
-  default: "bg-black/5 text-black/70",
-  muted: "bg-slate-100 text-slate-700",
+  default: "bg-[var(--surface-contrast)] text-[var(--color-text)]",
+  muted: "bg-[var(--surface-contrast)] text-[var(--color-muted)]",
   accent: "bg-[var(--color-primary)]/20 text-[var(--color-secondary)]",
   success: "bg-green-100 text-green-700",
   warning: "bg-amber-100 text-amber-700",

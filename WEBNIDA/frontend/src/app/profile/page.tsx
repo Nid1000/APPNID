@@ -124,7 +124,7 @@ export default function ProfilePage() {
   };
 
   if (!isAuthenticated()) {
-    return <div className="max-w-4xl mx-auto p-6">Debes iniciar sesión. <Link href="/login" className="text-blue-600 underline">Ir al login</Link></div>;
+    return <div className="mx-auto max-w-4xl p-6">Debes iniciar sesión. <Link href="/login" className="text-[var(--color-secondary)] underline">Ir al login</Link></div>;
   }
   if (loading) return <div className="max-w-4xl mx-auto p-6">Cargando perfil...</div>;
 
@@ -132,27 +132,27 @@ export default function ProfilePage() {
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Mi perfil</h1>
-        {stats && <p className="text-sm text-gray-600 mt-1">Pedidos: {stats.total_pedidos} · Total gastado: S/ {Number(stats.total_gastado || 0).toFixed(2)}</p>}
+        {stats && <p className="mt-1 text-sm text-[var(--color-muted)]">Pedidos: {stats.total_pedidos} · Total gastado: S/ {Number(stats.total_gastado || 0).toFixed(2)}</p>}
       </div>
       {error && <div className="rounded-md bg-red-100 text-red-700 px-4 py-2">{error}</div>}
       {success && <div className="rounded-md bg-green-100 text-green-700 px-4 py-2">{success}</div>}
 
-      <form onSubmit={handleGuardarPerfil} className="bg-white border rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div><label className="block text-sm mb-1">Nombre</label><input value={nombre} onChange={(e) => setNombre(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div><label className="block text-sm mb-1">Apellido</label><input value={apellido} onChange={(e) => setApellido(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div><label className="block text-sm mb-1">Email</label><input value={perfil?.email || ""} disabled className="w-full border rounded px-3 py-2 bg-gray-100" /></div>
-        <div><label className="block text-sm mb-1">Teléfono</label><input value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 9))} className="w-full border rounded px-3 py-2" /></div>
-        <div className="md:col-span-2"><label className="block text-sm mb-1">Dirección</label><input value={direccion} onChange={(e) => setDireccion(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div><label className="block text-sm mb-1">Distrito</label><select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="w-full border rounded px-3 py-2 bg-white"><option value="">Selecciona un distrito</option>{distritos.map((d) => <option key={d.id} value={d.nombre}>{d.nombre}</option>)}</select></div>
-        <div><label className="block text-sm mb-1">Número de casa</label><input value={numeroCasa} onChange={(e) => setNumeroCasa(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div className="md:col-span-2"><button type="submit" disabled={saving} className="bg-black text-white px-4 py-2 rounded">{saving ? "Guardando..." : "Guardar perfil"}</button></div>
+      <form onSubmit={handleGuardarPerfil} className="theme-surface-strong grid grid-cols-1 gap-4 rounded-xl border p-6 md:grid-cols-2">
+        <div><label className="mb-1 block text-sm">Nombre</label><input value={nombre} onChange={(e) => setNombre(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div><label className="mb-1 block text-sm">Apellido</label><input value={apellido} onChange={(e) => setApellido(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div><label className="mb-1 block text-sm">Email</label><input value={perfil?.email || ""} disabled className="w-full rounded border border-[var(--border-soft)] bg-[var(--surface-contrast)] px-3 py-2 text-[var(--color-muted)]" /></div>
+        <div><label className="mb-1 block text-sm">Teléfono</label><input value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 9))} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div className="md:col-span-2"><label className="mb-1 block text-sm">Dirección</label><input value={direccion} onChange={(e) => setDireccion(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div><label className="mb-1 block text-sm">Distrito</label><select value={distrito} onChange={(e) => setDistrito(e.target.value)} className="theme-input w-full rounded border px-3 py-2"><option value="">Selecciona un distrito</option>{distritos.map((d) => <option key={d.id} value={d.nombre}>{d.nombre}</option>)}</select></div>
+        <div><label className="mb-1 block text-sm">Número de casa</label><input value={numeroCasa} onChange={(e) => setNumeroCasa(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div className="md:col-span-2"><button type="submit" disabled={saving} className="rounded px-4 py-2 text-white" style={{ backgroundColor: "var(--color-button)" }}>{saving ? "Guardando..." : "Guardar perfil"}</button></div>
       </form>
 
-      <form onSubmit={handleCambiarPassword} className="bg-white border rounded-xl p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div><label className="block text-sm mb-1">Contraseña actual</label><input type="password" value={passwordActual} onChange={(e) => setPasswordActual(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div><label className="block text-sm mb-1">Nueva contraseña</label><input type="password" value={passwordNueva} onChange={(e) => setPasswordNueva(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div><label className="block text-sm mb-1">Confirmar contraseña</label><input type="password" value={confirmarPassword} onChange={(e) => setConfirmarPassword(e.target.value)} className="w-full border rounded px-3 py-2" /></div>
-        <div className="md:col-span-3"><button type="submit" disabled={pwdSaving} className="bg-gray-800 text-white px-4 py-2 rounded">{pwdSaving ? "Actualizando..." : "Cambiar contraseña"}</button></div>
+      <form onSubmit={handleCambiarPassword} className="theme-surface-strong grid grid-cols-1 gap-4 rounded-xl border p-6 md:grid-cols-3">
+        <div><label className="mb-1 block text-sm">Contraseña actual</label><input type="password" value={passwordActual} onChange={(e) => setPasswordActual(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div><label className="mb-1 block text-sm">Nueva contraseña</label><input type="password" value={passwordNueva} onChange={(e) => setPasswordNueva(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div><label className="mb-1 block text-sm">Confirmar contraseña</label><input type="password" value={confirmarPassword} onChange={(e) => setConfirmarPassword(e.target.value)} className="theme-input w-full rounded border px-3 py-2" /></div>
+        <div className="md:col-span-3"><button type="submit" disabled={pwdSaving} className="rounded px-4 py-2 text-white" style={{ backgroundColor: "var(--color-button)" }}>{pwdSaving ? "Actualizando..." : "Cambiar contraseña"}</button></div>
       </form>
     </div>
   );

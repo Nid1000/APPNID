@@ -217,7 +217,7 @@ export default function OrdersPage() {
       <h1 className="text-2xl font-semibold mb-6">Historial de compras</h1>
 
       {!authed ? (
-        <div className="p-4 rounded border bg-white">
+        <div className="theme-surface-strong rounded border p-4">
           <p>Debes iniciar sesión para ver tus pedidos.</p>
         </div>
       ) : (
@@ -225,13 +225,13 @@ export default function OrdersPage() {
           <div className="mb-4">
             <div className="inline-flex rounded border overflow-hidden">
               <button
-                className={`px-4 py-2 ${tab === "pedidos" ? "bg-gray-800 text-white" : "bg-white"}`}
+                className={`px-4 py-2 ${tab === "pedidos" ? "bg-[var(--color-button)] text-white" : "theme-surface-strong text-[var(--color-text)]"}`}
                 onClick={() => setTab("pedidos")}
               >
                 Pedidos
               </button>
               <button
-                className={`px-4 py-2 ${tab === "comprobantes" ? "bg-gray-800 text-white" : "bg-white"}`}
+                className={`px-4 py-2 ${tab === "comprobantes" ? "bg-[var(--color-button)] text-white" : "theme-surface-strong text-[var(--color-text)]"}`}
                 onClick={() => setTab("comprobantes")}
               >
                 Comprobantes
@@ -247,7 +247,7 @@ export default function OrdersPage() {
                   <label className="block text-sm font-medium mb-1">Búsqueda</label>
                   <input
                     type="text"
-                    className="w-full rounded border px-3 py-2 text-sm"
+                    className="theme-input w-full rounded border px-3 py-2 text-sm"
                     placeholder="ID o estado"
                     value={filtrosPed.busqueda}
                     onChange={(e) => setFiltrosPed((prev) => ({ ...prev, busqueda: e.target.value }))}
@@ -256,7 +256,7 @@ export default function OrdersPage() {
                 <div>
                   <label className="block text-sm font-medium mb-1">Estado</label>
                   <select
-                    className="w-full rounded border px-3 py-2 text-sm"
+                    className="theme-input w-full rounded border px-3 py-2 text-sm"
                     value={filtrosPed.estado}
                     onChange={(e) => setFiltrosPed((prev) => ({ ...prev, estado: e.target.value }))}
                   >
@@ -268,11 +268,11 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Desde</label>
-                  <input type="date" className="w-full rounded border px-3 py-2 text-sm" value={filtrosPed.desde} onChange={(e) => setFiltrosPed((prev) => ({ ...prev, desde: e.target.value }))} />
+                  <input type="date" className="theme-input w-full rounded border px-3 py-2 text-sm" value={filtrosPed.desde} onChange={(e) => setFiltrosPed((prev) => ({ ...prev, desde: e.target.value }))} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Hasta</label>
-                  <input type="date" className="w-full rounded border px-3 py-2 text-sm" value={filtrosPed.hasta} onChange={(e) => setFiltrosPed((prev) => ({ ...prev, hasta: e.target.value }))} />
+                  <input type="date" className="theme-input w-full rounded border px-3 py-2 text-sm" value={filtrosPed.hasta} onChange={(e) => setFiltrosPed((prev) => ({ ...prev, hasta: e.target.value }))} />
                 </div>
               </div>
               {loading ? (
@@ -282,23 +282,23 @@ export default function OrdersPage() {
               ) : (
                 <div className="space-y-4">
                   {pedidosFiltrados.length === 0 ? (
-                    <div className="text-gray-600">Aún no tienes pedidos.</div>
+                    <div className="text-[var(--color-muted)]">Aún no tienes pedidos.</div>
                   ) : (
                     pedidosFiltrados.map((p) => (
                       <div key={p.id} className="border rounded p-4 flex items-center justify-between">
                         <div>
                           <div className="font-medium">Pedido #{p.id}</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-[var(--color-muted)]">
                             {new Date(p.created_at || p.fecha_pedido || Date.now()).toLocaleString("es-ES")}
                           </div>
                           <div className="text-sm mt-1">
-                            Estado: <span className="inline-flex items-center px-2 py-0.5 rounded bg-gray-100">{p.estado}</span>
+                            Estado: <span className="theme-surface-strong inline-flex items-center rounded px-2 py-0.5">{p.estado}</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="font-semibold">{currency(Number(p.total || 0))}</div>
                           <button
-                            className="px-3 py-1.5 rounded border hover:bg-gray-50"
+                            className="theme-surface-strong theme-hover rounded border px-3 py-1.5 transition-colors"
                             onClick={() => abrirDetalles(p.id)}
                           >
                             Ver detalles
@@ -323,7 +323,7 @@ export default function OrdersPage() {
                       >
                         Anterior
                       </button>
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-[var(--color-text)]">
                         Página {pagina} de {totalPaginas}
                       </span>
                       <button
@@ -341,7 +341,7 @@ export default function OrdersPage() {
               {/* Modal de detalles (simplificado) */}
               {modalOpen && selected && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]">
-                  <div className="bg-white rounded shadow-lg w-full max-w-2xl">
+                  <div className="theme-surface-strong w-full max-w-2xl rounded shadow-lg">
                     <div className="p-4 border-b flex items-center justify-between">
                       <div className="font-semibold">Pedido #{selected.pedido?.id}</div>
                       <button className="px-2 py-1 rounded border" onClick={() => setModalOpen(false)}>Cerrar</button>
@@ -358,7 +358,7 @@ export default function OrdersPage() {
                             <li key={idx} className="p-2 flex items-center justify-between">
                               <div>
                                 <div>{d.producto_nombre}</div>
-                                <div className="text-xs text-gray-600">x{d.cantidad} · {currency(d.precio_unitario)}</div>
+                                <div className="text-xs text-[var(--color-muted)]">x{d.cantidad} · {currency(d.precio_unitario)}</div>
                               </div>
                               <div className="font-semibold">{currency(d.subtotal)}</div>
                             </li>
@@ -378,7 +378,7 @@ export default function OrdersPage() {
                   <label className="block text-sm font-medium mb-1">Búsqueda</label>
                   <input
                     type="text"
-                    className="w-full rounded border px-3 py-2 text-sm"
+                    className="theme-input w-full rounded border px-3 py-2 text-sm"
                     placeholder="Serie o número"
                     value={filtrosComp.busqueda}
                     onChange={(e) => setFiltrosComp((prev) => ({ ...prev, busqueda: e.target.value }))}
@@ -387,7 +387,7 @@ export default function OrdersPage() {
                 <div>
                   <label className="block text-sm font-medium mb-1">Tipo</label>
                   <select
-                    className="w-full rounded border px-3 py-2 text-sm"
+                    className="theme-input w-full rounded border px-3 py-2 text-sm"
                     value={filtrosComp.tipo}
                     onChange={(e) => setFiltrosComp((prev) => ({ ...prev, tipo: e.target.value }))}
                   >
@@ -398,15 +398,15 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Desde</label>
-                  <input type="date" className="w-full rounded border px-3 py-2 text-sm" value={filtrosComp.desde} onChange={(e) => setFiltrosComp((prev) => ({ ...prev, desde: e.target.value }))} />
+                  <input type="date" className="theme-input w-full rounded border px-3 py-2 text-sm" value={filtrosComp.desde} onChange={(e) => setFiltrosComp((prev) => ({ ...prev, desde: e.target.value }))} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Hasta</label>
-                  <input type="date" className="w-full rounded border px-3 py-2 text-sm" value={filtrosComp.hasta} onChange={(e) => setFiltrosComp((prev) => ({ ...prev, hasta: e.target.value }))} />
+                  <input type="date" className="theme-input w-full rounded border px-3 py-2 text-sm" value={filtrosComp.hasta} onChange={(e) => setFiltrosComp((prev) => ({ ...prev, hasta: e.target.value }))} />
                 </div>
               </div>
               {comprobantes.length === 0 ? (
-                <div className="text-gray-600">No hay comprobantes disponibles.</div>
+                <div className="text-[var(--color-muted)]">No hay comprobantes disponibles.</div>
               ) : (
                 <div className="space-y-3">
                   {comprobantesFiltrados.map((c, idx) => (
@@ -415,7 +415,7 @@ export default function OrdersPage() {
                         <div className="font-medium">
                           {c.tipo?.toUpperCase?.() ?? c.tipo} {c.serie}-{c.numero}
                         </div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-[var(--color-muted)]">
                           Emitido: {new Date(c.created_at || Date.now()).toLocaleString("es-ES")}
                         </div>
                       </div>
@@ -424,7 +424,7 @@ export default function OrdersPage() {
                         {c.archivos?.pdf && (
                           <>
                             <button
-                              className="px-3 py-1.5 rounded border hover:bg-gray-50"
+                              className="theme-surface-strong theme-hover rounded border px-3 py-1.5 transition-colors"
                               onClick={() => {
                                 setPdfModal({ open: true, src: `${axios.defaults.baseURL || ""}${c.archivos!.pdf}`, titulo: `${c.tipo} ${c.serie}-${c.numero}` });
                               }}
@@ -434,7 +434,7 @@ export default function OrdersPage() {
                             <a
                               href={`${axios.defaults.baseURL || ""}${c.archivos.pdf}`}
                               download
-                              className="px-3 py-1.5 rounded border hover:bg-gray-50"
+                              className="theme-surface-strong theme-hover rounded border px-3 py-1.5 transition-colors"
                             >
                               Descargar PDF
                             </a>
@@ -444,14 +444,14 @@ export default function OrdersPage() {
                           <a
                             href={`${axios.defaults.baseURL || ""}${c.archivos.xml}`}
                             download
-                            className="px-3 py-1.5 rounded border hover:bg-gray-50"
+                            className="theme-surface-strong theme-hover rounded border px-3 py-1.5 transition-colors"
                           >
                             Descargar XML
                           </a>
                         )}
                         {c.archivos?.img && (
                           <button
-                            className="px-3 py-1.5 rounded border hover:bg-gray-50"
+                            className="theme-surface-strong theme-hover rounded border px-3 py-1.5 transition-colors"
                             onClick={(e) => {
                               setImgModalFocusEl(e.currentTarget);
                               setImgModal({ open: true, src: getImageSrc(`${axios.defaults.baseURL || ""}${c.archivos!.img}`, { width: 1024 }), titulo: `${c.tipo} ${c.serie}-${c.numero}` });
@@ -470,7 +470,7 @@ export default function OrdersPage() {
               <AnimatePresence>
                 {imgModal.open && (
                   <motion.div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/60" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <motion.div role="dialog" aria-modal="true" aria-label="Imagen del comprobante" className="bg-white rounded-lg shadow-xl max-w-3xl w-full overflow-hidden" initial={{ scale: 0.95, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: -8 }}>
+                    <motion.div role="dialog" aria-modal="true" aria-label="Imagen del comprobante" className="theme-surface-strong max-w-3xl w-full overflow-hidden rounded-lg shadow-xl" initial={{ scale: 0.95, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: -8 }}>
                       <div className="p-3 border-b flex items-center justify-between">
                         <div className="font-semibold">{imgModal.titulo || "Comprobante"}</div>
                         <button ref={imgModalCloseBtnRef} className="px-2 py-1 rounded border" onClick={() => setImgModal({ open: false })}>Cerrar</button>
@@ -488,7 +488,7 @@ export default function OrdersPage() {
               <AnimatePresence>
                 {pdfModal.open && (
                   <motion.div className="fixed inset-0 z-[1150] flex items-center justify-center bg-black/60" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <motion.div role="dialog" aria-modal="true" aria-label="PDF del comprobante" className="bg-white rounded-lg shadow-xl max-w-4xl w-full overflow-hidden" initial={{ scale: 0.95, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: -8 }}>
+                    <motion.div role="dialog" aria-modal="true" aria-label="PDF del comprobante" className="theme-surface-strong max-w-4xl w-full overflow-hidden rounded-lg shadow-xl" initial={{ scale: 0.95, y: 8 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: -8 }}>
                       <div className="p-3 border-b flex items-center justify-between">
                         <div className="font-semibold">{pdfModal.titulo || "Comprobante (PDF)"}</div>
                         <button ref={pdfModalCloseBtnRef} className="px-2 py-1 rounded border" onClick={() => setPdfModal({ open: false })}>Cerrar</button>
@@ -497,7 +497,7 @@ export default function OrdersPage() {
                         <iframe src={pdfModal.src} title={pdfModal.titulo || "Comprobante PDF"} className="w-full h-[70vh]" />
                         <div className="mt-3 flex items-center gap-2">
                           {pdfModal.src && (
-                            <a href={pdfModal.src} download className="px-3 py-1.5 rounded border hover:bg-gray-50">Descargar PDF</a>
+                            <a href={pdfModal.src} download className="theme-surface-strong theme-hover rounded border px-3 py-1.5 transition-colors">Descargar PDF</a>
                           )}
                         </div>
                       </div>

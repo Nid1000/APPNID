@@ -53,7 +53,7 @@ export default function ProductCard({ producto, onAddToCart, isDisabled }: Props
         </div>
         {producto.categoria_nombre && (
           <div className="absolute top-2 right-2">
-            <Badge className="inline-flex items-center rounded-full bg-white/80 text-black/70 px-2 py-0.5 text-xs backdrop-blur">
+            <Badge className="inline-flex items-center rounded-full border border-[var(--border-soft)] bg-[var(--surface-soft)] px-2 py-0.5 text-xs text-[var(--color-text)] backdrop-blur">
               {producto.categoria_nombre}
             </Badge>
           </div>
@@ -69,7 +69,7 @@ export default function ProductCard({ producto, onAddToCart, isDisabled }: Props
         </div>
         {producto.descripcion ? (
           <p
-            className="text-sm text-black/70 mt-1"
+            className="mt-1 text-sm text-[var(--color-muted)]"
             style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
           >
             {producto.descripcion}

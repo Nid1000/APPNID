@@ -54,7 +54,7 @@ export default function ContactForm() {
       <div className="container">
         <div className="max-w-xl mx-auto card p-6">
           <h3 className="text-xl font-semibold text-[var(--color-secondary)]">Contáctanos</h3>
-          <p className="text-sm text-black/70 mt-1">
+          <p className="mt-1 text-sm text-[var(--color-muted)]">
             ¿Tienes un pedido especial o consulta? Envíanos un mensaje.
           </p>
 
@@ -63,7 +63,7 @@ export default function ContactForm() {
               <label className="block text-sm font-medium">Nombre</label>
               <input
                 type="text"
-                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-black/20"
+                className="theme-input mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                 {...register("nombre", {
                   required: "Ingresa tu nombre",
                   minLength: { value: 2, message: "Ingresa al menos 2 caracteres" },
@@ -78,7 +78,7 @@ export default function ContactForm() {
               <label className="block text-sm font-medium">Email</label>
               <input
                 type="email"
-                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-black/20"
+                className="theme-input mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                 {...register("email", {
                   required: "Ingresa tu email",
                   pattern: {
@@ -96,7 +96,7 @@ export default function ContactForm() {
   <input
     type="tel"
     inputMode="numeric"
-    className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-black/20"
+    className="theme-input mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
     {...register("telefono", {
       required: "Ingresa tu número de celular",
       pattern: {
@@ -116,7 +116,7 @@ export default function ContactForm() {
               <label className="block text-sm font-medium">Mensaje</label>
               <textarea
                 rows={4}
-                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-black/20"
+                className="theme-input mt-1 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                 {...register("mensaje", {
                   required: "Cuéntanos tu consulta",
                   minLength: { value: 5, message: "Escribe un mensaje más detallado" },

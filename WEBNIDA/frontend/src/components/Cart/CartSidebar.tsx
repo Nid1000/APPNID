@@ -59,12 +59,12 @@ export default function CartSidebar() {
         <div className="flex items-center justify-between px-4 py-3 border-b">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold inline-flex items-center gap-2"><ShoppingCart size={18} /> Tu Carrito</h2>
-            <span className="inline-flex items-center px-2 py-0.5 text-xs rounded-full bg-black/5 text-black/70">
+            <span className="theme-surface-strong inline-flex items-center rounded-full border px-2 py-0.5 text-xs text-[var(--color-text)]">
               {cartItemsTyped.length} {cartItemsTyped.length === 1 ? "producto" : "productos"}
             </span>
           </div>
           <motion.button
-            className="p-2 rounded hover:bg-black/5"
+            className="theme-hover rounded p-2 transition-colors"
             onClick={closeCart}
             aria-label="Cerrar carrito"
             whileTap={{ scale: 0.95 }}
@@ -77,7 +77,7 @@ export default function CartSidebar() {
         <div className="flex flex-col h-full">
           <div className="flex-1 overflow-y-auto px-4 py-3">
             {cartItems.length === 0 ? (
-              <div className="text-center text-gray-600 py-8">
+              <div className="py-8 text-center text-[var(--color-muted)]">
                 <p>Tu carrito está vacío.</p>
                 <Link href="/products" className="btn btn-primary mt-3">
                   Ir a productos
@@ -100,13 +100,13 @@ export default function CartSidebar() {
                   alt={item.nombre}
                   width={64}
                   height={64}
-                  className="w-16 h-16 object-cover rounded-xl border border-black/10"
+                  className="h-16 w-16 rounded-xl border border-[var(--border-soft)] object-cover"
                 />
                     <div className="flex-1">
                       <div className="flex items-start justify-between">
                         <div>
                           <p className="font-medium">{item.nombre}</p>
-                          <p className="text-sm text-gray-600">{formatPrice(parseFloat(String(item.precio)))}</p>
+                          <p className="text-sm text-[var(--color-muted)]">{formatPrice(parseFloat(String(item.precio)))}</p>
                         </div>
 
                         <motion.button
@@ -120,7 +120,7 @@ export default function CartSidebar() {
                       <div className="mt-2 flex items-center gap-2">
 
                         <motion.button
-                          className="px-3 py-2 border rounded-xl bg-white hover:bg-black/5 transition-colors"
+                          className="theme-surface-strong theme-hover rounded-xl border px-3 py-2 transition-colors"
                           onClick={() => updateQuantity(item.id, Math.max(1, item.cantidad - 1))}
                           disabled={item.cantidad <= 1}
                           aria-label="Disminuir cantidad"
@@ -144,7 +144,7 @@ export default function CartSidebar() {
                         />
 
                         <motion.button
-                          className="px-3 py-2 border rounded-xl bg-white hover:bg-black/5 transition-colors"
+                          className="theme-surface-strong theme-hover rounded-xl border px-3 py-2 transition-colors"
                           onClick={() => {
                             if (item.cantidad >= item.stock) {
                               toast.error("No hay más stock disponible");
@@ -183,7 +183,7 @@ export default function CartSidebar() {
     <span className="font-semibold">{formatPrice(getCartTotal())}</span>
   </div>
 
-  <p className="text-xs text-black/60 mb-3">Comprobante: Boleta (sin IGV)</p>
+  <p className="mb-3 text-xs text-[var(--color-muted)]">Comprobante: Boleta (sin IGV)</p>
 
   {/* ✅ BOTÓN ORDENAR DEBAJO DEL TOTAL */}
   <Link

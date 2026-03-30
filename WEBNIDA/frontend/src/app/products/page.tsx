@@ -287,14 +287,14 @@ function ProductsPageContent() {
     <div className="container py-8">
       <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] gap-6">
         <aside>
-          <div className="md:sticky md:top-24 h-fit rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="theme-surface-strong h-fit rounded-2xl border p-4 shadow-sm md:sticky md:top-24">
             <h5 className="text-lg font-semibold mb-3 inline-flex items-center gap-2">
               <Filter size={16} /> Filtros
             </h5>
 
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1 inline-flex items-center gap-2" htmlFor="buscar">
-                <SearchIcon size={14} className="text-black/60" /> Buscar productos
+                <SearchIcon size={14} className="text-[var(--color-muted)]" /> Buscar productos
               </label>
               <SearchSuggest
                 value={filtros.busqueda}
@@ -308,11 +308,11 @@ function ProductsPageContent() {
 
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1 inline-flex items-center gap-2" htmlFor="categoria">
-                <Tag size={14} className="text-black/60" /> Categoría
+                <Tag size={14} className="text-[var(--color-muted)]" /> Categoría
               </label>
               <select
                 id="categoria"
-                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-gray-400"
+                className="theme-input w-full rounded-xl border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                 value={filtros.categoria}
                 onChange={(e) => handleFiltroChange("categoria", e.target.value)}
               >
@@ -329,26 +329,26 @@ function ProductsPageContent() {
               <input
                 id="solo-disponibles"
                 type="checkbox"
-                className="h-4 w-4 rounded border border-gray-300"
+                className="h-4 w-4 rounded border border-[var(--border-strong)]"
                 checked={filtros.disponible}
                 onChange={(e) => handleFiltroChange("disponible", e.target.checked)}
               />
               <label className="text-sm inline-flex items-center gap-2" htmlFor="solo-disponibles">
-                <CheckCircle size={14} className="text-black/60" /> Solo productos disponibles
+                <CheckCircle size={14} className="text-[var(--color-muted)]" /> Solo productos disponibles
               </label>
             </div>
 
             <div className="mb-3 grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-medium mb-1 inline-flex items-center gap-2" htmlFor="precioMin">
-                  <DollarSign size={14} className="text-black/60" /> Precio mínimo
+                  <DollarSign size={14} className="text-[var(--color-muted)]" /> Precio mínimo
                 </label>
                 <input
                   id="precioMin"
                   type="number"
                   min="0"
                   step="0.01"
-                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-gray-400"
+                  className="theme-input w-full rounded-xl border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                   value={filtros.precioMin}
                   onChange={(e) => handleFiltroChange("precioMin", e.target.value)}
                   placeholder="S/ 0.00"
@@ -356,14 +356,14 @@ function ProductsPageContent() {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1 inline-flex items-center gap-2" htmlFor="precioMax">
-                  <DollarSign size={14} className="text-black/60" /> Precio máximo
+                  <DollarSign size={14} className="text-[var(--color-muted)]" /> Precio máximo
                 </label>
                 <input
                   id="precioMax"
                   type="number"
                   min="0"
                   step="0.01"
-                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-gray-400"
+                  className="theme-input w-full rounded-xl border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                   value={filtros.precioMax}
                   onChange={(e) => handleFiltroChange("precioMax", e.target.value)}
                   placeholder="S/ 100.00"
@@ -375,12 +375,12 @@ function ProductsPageContent() {
               <input
                 id="solo-destacados"
                 type="checkbox"
-                className="h-4 w-4 rounded border border-gray-300"
+                className="h-4 w-4 rounded border border-[var(--border-strong)]"
                 checked={filtros.destacado}
                 onChange={(e) => handleFiltroChange("destacado", e.target.checked)}
               />
               <label className="text-sm inline-flex items-center gap-2" htmlFor="solo-destacados">
-                <Star size={14} className="text-black/60" /> Solo destacados
+                <Star size={14} className="text-[var(--color-muted)]" /> Solo destacados
               </label>
             </div>
 
@@ -394,12 +394,12 @@ function ProductsPageContent() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-2xl font-semibold">Nuestros Productos</h1>
-              <p className="text-gray-600">{paginacion.total} productos encontrados</p>
+              <p className="text-[var(--color-muted)]">{paginacion.total} productos encontrados</p>
             </div>
 
             <div className="flex items-center gap-2">
               <select
-                className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-gray-400"
+                className="theme-input rounded-xl border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                 value={ordenamiento}
                 onChange={(e) => handleOrdenamientoChange(e.target.value)}
               >
@@ -410,7 +410,7 @@ function ProductsPageContent() {
               </select>
 
               <select
-                className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-gray-400"
+                className="theme-input rounded-xl border px-3 py-2 text-sm outline-none focus:border-[var(--color-secondary)]"
                 value={paginacion.limite}
                 onChange={(e) => handleLimiteChange(Number(e.target.value))}
               >
@@ -424,7 +424,7 @@ function ProductsPageContent() {
           <div className="mb-4 flex flex-wrap gap-2">
             {filtros.busqueda && (
               <button
-                className="px-2.5 py-1 text-sm rounded-full bg-gray-100 border border-gray-200 hover:bg-gray-200"
+                className="theme-surface-strong theme-hover rounded-full border px-2.5 py-1 text-sm transition-colors"
                 onClick={() => handleFiltroChange("busqueda", "")}
                 title="Quitar búsqueda"
               >
@@ -434,7 +434,7 @@ function ProductsPageContent() {
 
             {filtros.categoria && (
               <button
-                className="px-2.5 py-1 text-sm rounded-full bg-gray-100 border border-gray-200 hover:bg-gray-200"
+                className="theme-surface-strong theme-hover rounded-full border px-2.5 py-1 text-sm transition-colors"
                 onClick={() => handleFiltroChange("categoria", "")}
                 title="Quitar categoría"
               >
@@ -444,7 +444,7 @@ function ProductsPageContent() {
 
             {filtros.precioMin && (
               <button
-                className="px-2.5 py-1 text-sm rounded-full bg-gray-100 border border-gray-200 hover:bg-gray-200"
+                className="theme-surface-strong theme-hover rounded-full border px-2.5 py-1 text-sm transition-colors"
                 onClick={() => handleFiltroChange("precioMin", "")}
                 title="Quitar precio mínimo"
               >
@@ -454,7 +454,7 @@ function ProductsPageContent() {
 
             {filtros.precioMax && (
               <button
-                className="px-2.5 py-1 text-sm rounded-full bg-gray-100 border border-gray-200 hover:bg-gray-200"
+                className="theme-surface-strong theme-hover rounded-full border px-2.5 py-1 text-sm transition-colors"
                 onClick={() => handleFiltroChange("precioMax", "")}
                 title="Quitar precio máximo"
               >
@@ -464,7 +464,7 @@ function ProductsPageContent() {
 
             {filtros.destacado && (
               <button
-                className="px-2.5 py-1 text-sm rounded-full bg-gray-100 border border-gray-200 hover:bg-gray-200"
+                className="theme-surface-strong theme-hover rounded-full border px-2.5 py-1 text-sm transition-colors"
                 onClick={() => handleFiltroChange("destacado", false)}
                 title="Quitar filtro destacados"
               >
@@ -482,7 +482,7 @@ function ProductsPageContent() {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                <div key={i} className="theme-surface-strong overflow-hidden rounded-2xl border shadow-sm">
                   <Skeleton className="aspect-square" rounded="xl" />
                   <div className="p-4 space-y-2">
                     <Skeleton className="h-4 w-2/3" />
@@ -494,8 +494,8 @@ function ProductsPageContent() {
             </div>
           ) : productos.length === 0 ? (
             <div className="text-center py-12">
-              <h4 className="text-gray-700 text-lg">No se encontraron productos</h4>
-              <p className="text-gray-600">Intenta ajustar los filtros de búsqueda</p>
+              <h4 className="text-lg text-[var(--color-text)]">No se encontraron productos</h4>
+              <p className="text-[var(--color-muted)]">Intenta ajustar los filtros de búsqueda</p>
               <div className="mt-4">
                 <Button onClick={limpiarFiltros}>Limpiar filtros</Button>
               </div>
@@ -541,7 +541,7 @@ function ProductsPageContent() {
                     <button
                       key={page}
                       className={`px-3 py-1.5 text-sm rounded-md border ${
-                        page === paginacion.pagina ? "bg-black text-white border-black" : "bg-white border-gray-200"
+                        page === paginacion.pagina ? "border-[var(--color-button)] bg-[var(--color-button)] text-white" : "theme-surface-strong"
                       }`}
                       onClick={() => handlePaginaChange(page)}
                     >

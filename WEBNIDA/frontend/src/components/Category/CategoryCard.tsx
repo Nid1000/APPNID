@@ -20,7 +20,7 @@ export default function CategoryCard({ categoria, href }: Props) {
   const src = getImageSrc(categoria.imagen, { width: 600 });
 
   const CardInner = (
-    <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+    <div className="theme-surface-strong relative overflow-hidden rounded-xl border shadow-sm transition hover:shadow-md">
       <div className="aspect-square relative">
         <Image
           src={src}
@@ -32,7 +32,7 @@ export default function CategoryCard({ categoria, href }: Props) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent opacity-80 transition group-hover:opacity-90" />
         <div className="absolute bottom-0 left-0 right-0 p-3">
-          <div className="inline-flex items-center rounded-lg bg-white/85 px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm backdrop-blur-sm">
+          <div className="inline-flex items-center rounded-lg border border-[var(--border-soft)] bg-[var(--surface-soft)] px-3 py-1 text-sm font-semibold text-[var(--color-text)] shadow-sm backdrop-blur-sm">
             {categoria.nombre}
           </div>
         </div>

@@ -12,7 +12,7 @@ const variantClasses = {
   primary: "btn btn-primary",
   outline: "btn btn-outline-secondary",
   secondary: "btn bg-[var(--color-secondary)] text-white hover:brightness-95",
-  ghost: "btn bg-transparent hover:bg-black/5 text-black",
+  ghost: "btn bg-transparent text-[var(--color-text)] hover:bg-[var(--surface-contrast)]/80",
 };
 
 const sizeClasses = {

@@ -26,7 +26,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto w-full mt-10 p-6 border rounded-lg bg-white shadow-sm">
+    <div className="theme-surface-strong mx-auto mt-10 w-full max-w-md rounded-lg border p-6 shadow-sm">
       <h1 className="text-2xl font-semibold mb-4">Iniciar sesión</h1>
       {error && (
         <div className="mb-4 p-3 rounded bg-red-100 text-red-700 text-sm">
@@ -41,7 +41,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full border rounded px-3 py-2"
+            className="theme-input w-full rounded border px-3 py-2"
             placeholder="tu@email.com"
           />
         </div>
@@ -52,20 +52,21 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full border rounded px-3 py-2"
+            className="theme-input w-full rounded border px-3 py-2"
             placeholder="••••••••"
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-900"
+          className="w-full rounded px-4 py-2 text-white transition-colors"
+          style={{ backgroundColor: "var(--color-button)" }}
         >
           {loading ? "Ingresando..." : "Ingresar"}
         </button>
       </form>
-      <p className="text-sm text-gray-600 mt-4">
-        ¿No tienes cuenta? <a href="/register" className="text-blue-600 hover:underline">Regístrate</a>
+      <p className="mt-4 text-sm text-[var(--color-muted)]">
+        ¿No tienes cuenta? <a href="/register" className="text-[var(--color-secondary)] hover:underline">Regístrate</a>
       </p>
     </div>
   );
