@@ -31,7 +31,7 @@ export default function Nosotros() {
 
             <ul className="grid sm:grid-cols-2 gap-2 mt-2">
               {puntos.map((t) => (
-                <li key={t} className="flex items-start gap-2 text-sm text-black/80">
+                <li key={t} className="flex items-start gap-2 text-sm text-[var(--color-text)]">
                   <CheckCircle size={16} className="text-[var(--color-primary)] mt-0.5" />
                   <span>{t}</span>
                 </li>

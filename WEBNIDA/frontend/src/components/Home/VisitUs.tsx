@@ -28,7 +28,7 @@ export default function VisitUs() {
               Panadería Delicias — Jr. Parra del Riego #164, El Tambo, Huancayo.
               Atención: Lunes a Domingo, 7:00 AM – 9:00 PM.
             </p>
-            <ul className="text-sm text-black/70">
+            <ul className="text-sm text-[var(--color-text)]">
               <li><strong>Celular:</strong> 993560096</li>
               <li><strong>Correo:</strong> contacto@delicias.com</li>
             </ul>

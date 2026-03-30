@@ -48,7 +48,7 @@ export default function Features() {
               </div>
               <div className="p-4">
                 <h3 className="font-semibold text-lg">{item.title}</h3>
-                <p className="text-sm text-black/70 mt-1">{item.description}</p>
+                <p className="mt-1 text-sm text-[var(--color-muted)]">{item.description}</p>
                 <a href={item.href} className="btn btn-outline-secondary mt-3">Ver más</a>
               </div>
             </motion.article>

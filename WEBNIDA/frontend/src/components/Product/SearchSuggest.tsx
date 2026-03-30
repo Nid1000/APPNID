@@ -76,20 +76,20 @@ export default function SearchSuggest({ value, onChange, onSelect, placeholder }
     <div ref={boxRef} className="relative">
       <input
         type="text"
-        className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-gray-400"
+        className="theme-input w-full rounded-xl border px-3 py-2 text-sm outline-none transition-colors focus:border-[var(--color-secondary)]"
         placeholder={placeholder || "Buscar productos..."}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setOpen(suggests.length > 0)}
       />
       {open && (
-        <div className="absolute left-0 right-0 mt-1 rounded-xl border border-black/10 bg-white shadow-md z-20">
+        <div className="theme-surface-strong absolute left-0 right-0 z-20 mt-1 rounded-xl border shadow-md">
           <ul>
             {suggests.map((s) => (
               <li key={s.id}>
                 <button
                   type="button"
-                  className="w-full text-left px-3 py-2 text-sm hover:bg-black/5"
+                  className="theme-hover w-full px-3 py-2 text-left text-sm transition-colors"
                   onClick={() => {
                     onSelect(s);
                     setOpen(false);
@@ -100,7 +100,7 @@ export default function SearchSuggest({ value, onChange, onSelect, placeholder }
               </li>
             ))}
             {loading && (
-              <li className="px-3 py-2 text-sm text-black/60">Buscando...</li>
+              <li className="px-3 py-2 text-sm text-[var(--color-muted)]">Buscando...</li>
             )}
           </ul>
         </div>

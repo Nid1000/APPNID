@@ -37,6 +37,28 @@ enum TipoUsuarioLoginLog {
   admin
 }
 
+enum PagoMetodo {
+  yape
+  tarjeta
+  contra_entrega
+}
+
+enum PagoEstado {
+  pendiente
+  pagado
+}
+
+enum SeguimientoEstado {
+  Preparando
+  En_camino @map("En camino")
+  Entregado
+}
+
+enum SoporteEstado {
+  pendiente
+  respondido
+}
+
 model Categoria {
   id          Int      @id @default(autoincrement())
   nombre      String   @unique
@@ -66,26 +88,34 @@ model Producto {
 
   categoria Categoria?      @relation(fields: [categoria_id], references: [id], onDelete: SetNull)
   detalles  PedidoDetalle[]
+  calificaciones Calificacion[]
 
   @@map("productos")
 }
 
 model Usuario {
-  id         Int      @id @default(autoincrement())
-  nombre     String
-  apellido   String
-  email      String   @unique
-  password   String
-  telefono   String?  @db.VarChar(20)
-  direccion  String?  @db.Text
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  apellido    String
+  email       String   @unique
+  password    String
+  telefono    String?  @db.VarChar(20)
+  distrito_id Int?     @map("distrito_id")
+  direccion   String?  @db.Text
   distrito    String?  @db.VarChar(120)
   numero_casa String?  @map("numero_casa") @db.VarChar(20)
-  activo     Boolean  @default(true)
-  created_at DateTime @default(now()) @map("created_at")
-  updated_at DateTime @updatedAt @map("updated_at")
+  activo      Boolean  @default(true)
+  created_at  DateTime @default(now()) @map("created_at")
+  updated_at  DateTime @updatedAt @map("updated_at")
 
-  pedidos   Pedido[]
-  loginLogs LoginLog[]
+  distrito_catalogo CatalogoDistritoHuancayo? @relation(fields: [distrito_id], references: [id], onDelete: SetNull)
+  pedidos           Pedido[]
+  direcciones       Direccion[]
+  loginLogs         LoginLog[]
+  notificaciones    Notificacion[]
+  sesiones          Sesion[]
+  soporte           Soporte[]
+  calificaciones    Calificacion[]
 
   @@map("usuarios")
 }
@@ -106,23 +136,28 @@ model Administrador {
 }
 
 model Pedido {
-  id                Int          @id @default(autoincrement())
-  usuario_id        Int?         @map("usuario_id")
-  total             Decimal      @db.Decimal(10, 2)
-  estado            PedidoEstado @default(pendiente)
-  fecha_entrega     DateTime?    @map("fecha_entrega") @db.Date
-  direccion_entrega String?      @map("direccion_entrega") @db.Text
-  distrito_entrega     String?      @map("distrito_entrega") @db.VarChar(120)
-  numero_casa_entrega  String?      @map("numero_casa_entrega") @db.VarChar(20)
-  direccion_id         Int?         @map("direccion_id")
-  telefono_contacto String?      @map("telefono_contacto") @db.VarChar(20)
-  notas             String?      @db.Text
-  created_at        DateTime     @default(now()) @map("created_at")
-  updated_at        DateTime     @updatedAt @map("updated_at")
+  id                  Int          @id @default(autoincrement())
+  usuario_id          Int?         @map("usuario_id")
+  direccion_id        Int?         @map("direccion_id")
+  distrito_entrega_id Int?         @map("distrito_entrega_id")
+  total               Decimal      @db.Decimal(10, 2)
+  estado              PedidoEstado @default(pendiente)
+  fecha_entrega       DateTime?    @map("fecha_entrega") @db.Date
+  direccion_entrega   String?      @map("direccion_entrega") @db.Text
+  distrito_entrega    String?      @map("distrito_entrega") @db.VarChar(120)
+  numero_casa_entrega String?      @map("numero_casa_entrega") @db.VarChar(20)
+  telefono_contacto   String?      @map("telefono_contacto") @db.VarChar(20)
+  notas               String?      @db.Text
+  created_at          DateTime     @default(now()) @map("created_at")
+  updated_at          DateTime     @updatedAt @map("updated_at")
 
-  usuario      Usuario?        @relation(fields: [usuario_id], references: [id], onDelete: SetNull)
-  detalles     PedidoDetalle[]
-  comprobantes Comprobante[]
+  usuario              Usuario?                 @relation(fields: [usuario_id], references: [id], onDelete: SetNull)
+  direccion            Direccion?               @relation(fields: [direccion_id], references: [id], onDelete: SetNull)
+  distrito_entrega_ref CatalogoDistritoHuancayo? @relation("PedidoDistritoEntrega", fields: [distrito_entrega_id], references: [id], onDelete: SetNull)
+  detalles             PedidoDetalle[]
+  comprobantes         Comprobante[]
+  pagos                Pago[]
+  seguimiento          Seguimiento[]
 
   @@map("pedidos")
 }
@@ -158,12 +193,13 @@ model LoginLog {
 }
 
 model Comprobante {
-  id                Int    @id @default(autoincrement())
-  pedido_id         Int    @map("pedido_id")
-  tipo              String @db.VarChar(20)
-  serie             String @db.VarChar(10)
-  numero            Int
-  numero_formateado String @map("numero_formateado") @db.VarChar(30)
+  id                   Int    @id @default(autoincrement())
+  pedido_id            Int    @map("pedido_id")
+  comprobante_serie_id Int?   @map("comprobante_serie_id")
+  tipo                 String @db.VarChar(20)
+  serie                String @db.VarChar(10)
+  numero               Int
+  numero_formateado    String @map("numero_formateado") @db.VarChar(30)
 
   archivo_nombre String  @map("archivo_nombre") @db.VarChar(255)
   archivo_ruta   String  @map("archivo_ruta") @db.VarChar(500)
@@ -172,7 +208,8 @@ model Comprobante {
 
   created_at DateTime @default(now()) @map("created_at")
 
-  pedido Pedido @relation(fields: [pedido_id], references: [id], onDelete: Cascade)
+  pedido             Pedido            @relation(fields: [pedido_id], references: [id], onDelete: Cascade)
+  comprobante_serie  ComprobanteSerie? @relation(fields: [comprobante_serie_id], references: [id], onDelete: SetNull)
 
   @@unique([tipo, serie, numero], name: "uk_tipo_serie_num")
   @@index([pedido_id], name: "idx_pedido_id")
@@ -185,6 +222,117 @@ model ComprobanteSerie {
   serie       String @db.VarChar(10)
   correlativo Int    @default(0)
 
+  comprobantes Comprobante[]
+
   @@unique([tipo, serie], name: "uk_tipo_serie")
   @@map("comprobante_series")
+}
+
+model CatalogoDistritoHuancayo {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @unique @db.VarChar(120)
+  orden_lista Int      @default(0) @map("orden_lista")
+  activo      Boolean  @default(true)
+  created_at  DateTime @default(now()) @map("created_at")
+
+  usuarios                 Usuario[]
+  direcciones              Direccion[]
+  pedidos_distrito_entrega Pedido[] @relation("PedidoDistritoEntrega")
+
+  @@map("catalogo_distritos_huancayo")
+}
+
+model Direccion {
+  id          Int      @id @default(autoincrement())
+  usuario_id  Int      @map("usuario_id")
+  distrito_id Int?     @map("distrito_id")
+  direccion   String   @db.Text
+  distrito    String?  @db.VarChar(120)
+  numero_casa String?  @map("numero_casa") @db.VarChar(20)
+  referencia  String?  @db.Text
+  latitud     Decimal? @db.Decimal(10, 8)
+  longitud    Decimal? @db.Decimal(11, 8)
+
+  usuario          Usuario                  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  distrito_catalogo CatalogoDistritoHuancayo? @relation(fields: [distrito_id], references: [id], onDelete: SetNull)
+  pedidos          Pedido[]
+
+  @@map("direcciones")
+}
+
+model Notificacion {
+  id         Int      @id @default(autoincrement())
+  usuario_id Int?     @map("usuario_id")
+  titulo     String?  @db.VarChar(120)
+  mensaje    String?  @db.Text
+  leido      Boolean? @default(false)
+  fecha      DateTime @default(now())
+
+  usuario Usuario? @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("notificaciones")
+}
+
+model Pago {
+  id        Int        @id @default(autoincrement())
+  pedido_id Int        @map("pedido_id")
+  metodo    PagoMetodo
+  monto     Decimal    @db.Decimal(10, 2)
+  estado    PagoEstado @default(pendiente)
+  fecha     DateTime   @default(now())
+
+  pedido Pedido @relation(fields: [pedido_id], references: [id], onDelete: Cascade)
+
+  @@map("pagos")
+}
+
+model Seguimiento {
+  id        Int                @id @default(autoincrement())
+  pedido_id Int                @map("pedido_id")
+  estado    SeguimientoEstado?
+  fecha     DateTime           @default(now())
+
+  pedido Pedido @relation(fields: [pedido_id], references: [id], onDelete: Cascade)
+
+  @@map("seguimiento")
+}
+
+model Sesion {
+  id          Int      @id @default(autoincrement())
+  usuario_id  Int      @map("usuario_id")
+  token       String   @db.VarChar(255)
+  dispositivo String?  @db.VarChar(100)
+  fecha       DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("sesiones")
+}
+
+model Soporte {
+  id         Int           @id @default(autoincrement())
+  usuario_id Int?          @map("usuario_id")
+  asunto     String?       @db.VarChar(200)
+  mensaje    String?       @db.Text
+  respuesta  String?       @db.Text
+  estado     SoporteEstado @default(pendiente)
+  fecha      DateTime      @default(now())
+
+  usuario Usuario? @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("soporte")
+}
+
+model Calificacion {
+  id          Int      @id @default(autoincrement())
+  producto_id Int      @map("producto_id")
+  usuario_id  Int      @map("usuario_id")
+  estrellas   Int
+  comentario  String?  @db.Text
+  fecha       DateTime @default(now())
+
+  producto Producto @relation(fields: [producto_id], references: [id], onDelete: Cascade)
+  usuario  Usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@map("calificaciones")
 }

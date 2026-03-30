@@ -11,6 +11,9 @@
   --color-muted: #6B7280;      /* Texto secundario */
   --surface: #FFFFFF;          /* Superficie clara */
   --surface-contrast: #F7F3ED; /* Superficie contrastante */
+  --surface-soft: rgba(255, 255, 255, 0.92);
+  --border-soft: rgba(44, 44, 44, 0.12);
+  --border-strong: rgba(44, 44, 44, 0.18);
 }
 
 .dark {
@@ -22,6 +25,9 @@
   --color-muted: #9CA3AF;      /* Texto secundario */
   --surface: #24221F;          /* Superficie oscura */
   --surface-contrast: #2D2B28; /* Superficie contrastante */
+  --surface-soft: rgba(36, 34, 31, 0.94);
+  --border-soft: rgba(234, 231, 226, 0.12);
+  --border-strong: rgba(234, 231, 226, 0.2);
 }
 
 html, body {
@@ -91,6 +97,32 @@ body {
 .navbar-blur {
   background-color: color-mix(in oklab, var(--surface) 75%, transparent);
   @apply backdrop-blur-md shadow-sm;
+}
+
+.theme-surface {
+  background-color: var(--surface-soft);
+  border-color: var(--border-soft);
+  color: var(--color-text);
+}
+
+.theme-surface-strong {
+  background-color: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--color-text);
+}
+
+.theme-input {
+  background-color: color-mix(in oklab, var(--surface) 92%, transparent);
+  border-color: var(--border-soft);
+  color: var(--color-text);
+}
+
+.theme-input::placeholder {
+  color: var(--color-muted);
+}
+
+.theme-hover:hover {
+  background-color: color-mix(in oklab, var(--surface-contrast) 85%, transparent);
 }
 
 /* Footer */

@@ -12,9 +12,9 @@ export default function ThemeToggle() {
       type="button"
       aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="rounded-xl p-2 hover:bg-black/5"
+      className="theme-surface-strong theme-hover inline-flex items-center justify-center rounded-xl border p-2 transition-colors"
     >
-      {isDark ? <Sun size={18} /> : <Moon size={18} />}
+      {isDark ? <Sun size={18} className="text-[var(--color-primary)]" /> : <Moon size={18} className="text-[var(--color-secondary)]" />}
     </button>
   );
 }

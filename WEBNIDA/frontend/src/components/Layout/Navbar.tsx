@@ -184,16 +184,16 @@ export default function Navbar() {
     <>
     <header role="navigation" aria-label="Barra principal" className="navbar">
       {/* Top bar informativa */}
-      <div className="bg-white/90 border-b border-black/10">
+      <div className="theme-surface border-b">
         <div className="container h-9 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-3 text-black/70">
+          <div className="flex items-center gap-3 text-[var(--color-muted)]">
             <span className="inline-flex items-center gap-1"><Truck size={14} /> Envío gratis en compras desde S/ 80</span>
             <span className="hidden sm:inline-block">|</span>
-            <a href="tel:993560096" className="inline-flex items-center gap-1 hover:text-black"><Phone size={14} /> 993560096</a>
+            <a href="tel:993560096" className="inline-flex items-center gap-1 transition-colors hover:text-[var(--color-text)]"><Phone size={14} /> 993560096</a>
           </div>
-          <div className="flex items-center gap-3 text-black/70">
-            <Link href="/#contacto" className="hover:text-black">Contáctanos</Link>
-            <Link href="/checkout" className="hover:text-black">Ordenar ahora</Link>
+          <div className="flex items-center gap-3 text-[var(--color-muted)]">
+            <Link href="/#contacto" className="transition-colors hover:text-[var(--color-text)]">Contáctanos</Link>
+            <Link href="/checkout" className="transition-colors hover:text-[var(--color-text)]">Ordenar ahora</Link>
           </div>
         </div>
       </div>
@@ -205,8 +205,10 @@ export default function Navbar() {
       >
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/logos/logo 1.png" alt="Delicias" width={40} height={40} />
+          <Link href="/" className="flex items-center gap-2 rounded-2xl px-1 py-1 transition-colors hover:bg-[var(--surface-contrast)]/60">
+            <span className="theme-surface-strong flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border shadow-sm">
+              <Image src="/images/logos/logo 1.png" alt="Delicias" width={36} height={36} />
+            </span>
             <span className="font-semibold text-[var(--color-secondary)]">Delicias</span>
           </Link>
         </div>
@@ -214,13 +216,13 @@ export default function Navbar() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           <nav aria-label="Navegación principal" className="flex items-center gap-6">
-            <Link href="/" className="text-sm hover:text-[var(--color-secondary)]">Inicio</Link>
-            <Link href="/products" className="text-sm hover:text-[var(--color-secondary)]">Menú</Link>
-            <Link href="/historial" className="text-sm hover:text-[var(--color-secondary)]">Historial</Link>
-            <Link href="/#nosotros" className="text-sm hover:text-[var(--color-secondary)]">Nosotros</Link>
-            <Link href="/#contacto" className="text-sm hover:text-[var(--color-secondary)]">Contáctanos</Link>
+            <Link href="/" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Inicio</Link>
+            <Link href="/products" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Menú</Link>
+            <Link href="/historial" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Historial</Link>
+            <Link href="/#nosotros" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Nosotros</Link>
+            <Link href="/#contacto" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Contáctanos</Link>
             {isAdmin() && (
-              <Link href="/admin" className="text-sm text-black/70 hover:text-black">Admin</Link>
+              <Link href="/admin" className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-text)]">Admin</Link>
             )}
           </nav>
           {/* Buscador */}
@@ -237,7 +239,7 @@ export default function Navbar() {
               }}
               placeholder="Buscar productos..."
             />
-            <button type="submit" aria-label="Buscar" className="absolute right-1 top-1.5 rounded-lg p-1.5 text-black/70 hover:text-black">
+            <button type="submit" aria-label="Buscar" className="absolute right-1 top-1.5 rounded-lg p-1.5 text-[var(--color-muted)] transition-colors hover:text-[var(--color-text)]">
               <Search size={16} />
             </button>
           </form>
@@ -246,7 +248,7 @@ export default function Navbar() {
 
         {/* Acciones */}
         <div className="flex items-center gap-3">
-          <button type="button" onClick={openCart} aria-label="Abrir carrito" className="relative inline-flex items-center justify-center rounded-xl p-2 hover:bg-black/5">
+          <button type="button" onClick={openCart} aria-label="Abrir carrito" className="theme-hover relative inline-flex items-center justify-center rounded-xl p-2 transition-colors">
             <ShoppingCart size={20} />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 rounded-full bg-[var(--color-primary)] text-white text-[10px] px-1.5 py-0.5">
@@ -261,7 +263,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setNotificationsOpen((value) => !value)}
                 aria-label="Abrir mensajes"
-                className="relative inline-flex items-center justify-center rounded-xl p-2 hover:bg-black/5"
+                className="theme-hover relative inline-flex items-center justify-center rounded-xl p-2 transition-colors"
               >
                 <Bell size={20} />
                 {notifications.length > 0 && (
@@ -271,10 +273,10 @@ export default function Navbar() {
                 )}
               </button>
               {notificationsOpen && (
-                <div className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-black/10 bg-white p-3 shadow-xl">
-                  <div className="mb-2 text-sm font-semibold text-slate-900">Mensajes</div>
+                <div className="theme-surface-strong absolute right-0 top-12 z-50 w-80 rounded-2xl border p-3 shadow-xl">
+                  <div className="mb-2 text-sm font-semibold text-[var(--color-text)]">Mensajes</div>
                   {notifications.length === 0 ? (
-                    <div className="text-sm text-slate-500">No tienes mensajes nuevos.</div>
+                    <div className="text-sm text-[var(--color-muted)]">No tienes mensajes nuevos.</div>
                   ) : (
                     <div className="space-y-2">
                       {notifications.map((item) => (
@@ -282,10 +284,10 @@ export default function Navbar() {
                           key={item.id}
                           type="button"
                           onClick={() => openNotification(item)}
-                          className="w-full rounded-xl border border-slate-200 p-3 text-left hover:bg-slate-50"
+                          className="theme-hover w-full rounded-xl border border-[var(--border-soft)] p-3 text-left transition-colors"
                         >
-                          <div className="text-sm font-semibold text-slate-900">{item.title}</div>
-                          <div className="mt-1 text-sm text-slate-600">{item.body}</div>
+                          <div className="text-sm font-semibold text-[var(--color-text)]">{item.title}</div>
+                          <div className="mt-1 text-sm text-[var(--color-muted)]">{item.body}</div>
                         </button>
                       ))}
                     </div>
@@ -303,25 +305,25 @@ export default function Navbar() {
             <div className="hidden sm:flex items-center gap-2">
               <Link href="/profile" className="inline-flex items-center gap-2">
                 {user?.avatar ? (
-                  <Image src={user.avatar} alt="Perfil" width={28} height={28} className="rounded-full border border-black/10" />
+                  <Image src={user.avatar} alt="Perfil" width={28} height={28} className="rounded-full border border-[var(--border-soft)]" />
                 ) : (
-                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-black/5 text-xs font-medium">
+                  <span className="theme-surface-strong inline-flex h-7 w-7 items-center justify-center rounded-full border text-xs font-medium">
                     {(user?.nombre || user?.email || "?")[0]?.toUpperCase()}
                   </span>
                 )}
-                <span className="text-sm hover:text-[var(--color-secondary)]">{user?.nombre || user?.email || "Perfil"}</span>
+                <span className="text-sm transition-colors hover:text-[var(--color-secondary)]">{user?.nombre || user?.email || "Perfil"}</span>
               </Link>
-              <button onClick={logout} className="text-sm text-black/70 hover:text-black">Salir</button>
+              <button onClick={logout} className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-text)]">Salir</button>
             </div>
           ) : (
             <div className="hidden sm:flex items-center gap-2">
-              <Link href="/login" className="text-sm hover:text-[var(--color-secondary)]">Entrar</Link>
-              <Link href="/register" className="text-sm hover:text-[var(--color-secondary)]">Registro</Link>
+              <Link href="/login" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Entrar</Link>
+              <Link href="/register" className="text-sm transition-colors hover:text-[var(--color-secondary)]">Registro</Link>
             </div>
           )}
 
           {/* Mobile toggle */}
-          <button aria-label="Abrir menú" aria-expanded={open} onClick={() => setOpen(v => !v)} className="md:hidden rounded-xl p-2 hover:bg-black/5">
+          <button aria-label="Abrir menú" aria-expanded={open} onClick={() => setOpen(v => !v)} className="theme-hover md:hidden rounded-xl p-2 transition-colors">
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
@@ -329,10 +331,10 @@ export default function Navbar() {
 
       {/* Barra secundaria de categorías */}
       {categorias.length > 0 && (
-        <div className="bg-white/90 border-b border-black/10">
+        <div className="theme-surface border-b">
           <div className="container h-12 flex items-center gap-4 overflow-x-auto">
             {categorias.map((c) => (
-              <Link key={c.id} href={`/products?categoria=${c.id}`} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 bg-white text-sm text-black/80 hover:border-gray-400 whitespace-nowrap">
+              <Link key={c.id} href={`/products?categoria=${c.id}`} className="theme-surface-strong inline-flex items-center gap-2 whitespace-nowrap rounded-xl border px-3 py-1.5 text-sm transition-colors hover:border-[var(--color-secondary)] hover:text-[var(--color-secondary)]">
                 <Wheat size={16} /> {c.nombre}
               </Link>
             ))}
@@ -346,7 +348,7 @@ export default function Navbar() {
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          className="md:hidden bg-white/80 backdrop-blur-md shadow-sm"
+          className="theme-surface md:hidden shadow-sm backdrop-blur-md"
         >
           <div className="container py-3 grid grid-cols-2 gap-3">
             {/* Buscador móvil */}
@@ -364,7 +366,7 @@ export default function Navbar() {
                 }}
                 placeholder="Buscar productos..."
               />
-              <button type="submit" aria-label="Buscar" className="absolute right-1 top-1.5 rounded-lg p-1.5 text-black/70 hover:text-black">
+              <button type="submit" aria-label="Buscar" className="absolute right-1 top-1.5 rounded-lg p-1.5 text-[var(--color-muted)] transition-colors hover:text-[var(--color-text)]">
                 <Search size={16} />
               </button>
             </form>
@@ -398,7 +400,7 @@ export default function Navbar() {
             {categorias.length > 0 && (
               <div className="col-span-2 flex items-center gap-2 overflow-x-auto">
                 {categorias.map((c) => (
-                  <Link key={c.id} href={`/products?categoria=${c.id}`} className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-gray-200 bg-white text-sm text-black/80 whitespace-nowrap">
+                  <Link key={c.id} href={`/products?categoria=${c.id}`} className="theme-surface-strong inline-flex items-center gap-2 whitespace-nowrap rounded-xl border px-2.5 py-1.5 text-sm">
                     <Wheat size={16} /> {c.nombre}
                   </Link>
                 ))}

@@ -47,8 +47,8 @@ export default function Testimonials() {
                   <Star key={i} size={16} fill="currentColor" stroke="none" />
                 ))}
               </div>
-              <p className="text-sm text-black/80 mt-2">“{t.texto}”</p>
-              <p className="mt-3 text-sm font-semibold text-black/90">{t.nombre}</p>
+              <p className="mt-2 text-sm text-[var(--color-muted)]">“{t.texto}”</p>
+              <p className="mt-3 text-sm font-semibold text-[var(--color-text)]">{t.nombre}</p>
             </motion.article>
           ))}
         </div>
