@@ -27,8 +27,13 @@ function exceptionFactory(errors: any): any {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const corsOrigin = process.env.CORS_ORIGIN
+    ?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
   app.enableCors({
-    origin: '*',
+    origin: corsOrigin?.length ? corsOrigin : true,
     credentials: true,
   });
 

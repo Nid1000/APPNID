@@ -1,135 +1,100 @@
-# Delicias Bakery — Monorepo Next.js + NestJS
+# Delicias Bakery
 
-Aplicación web profesional para una panadería, migrada y consolidada en un monorepo con:
-- Frontend: Next.js 15 (App Router, SSR/SSG), Tailwind CSS.
-- Backend: NestJS 11 (JWT, Prisma), MySQL como base de datos.
+Monorepo con:
 
-## 🚀 Características
+- Frontend en Next.js 15 dentro de `frontend`
+- Backend en NestJS 11 + Prisma dentro de `backend`
+- Base de datos MySQL
 
-### Frontend (Next.js)
-- Ruteo por archivos (App Router) y metadata por página.
-- SSR/SSG donde aporta rendimiento (catálogo, páginas públicas).
-- Autenticación con token JWT almacenado en cookie.
-- Protección de rutas mediante `src/middleware.ts` (usuario y admin).
-- Rewrites de `/api/*` y `/uploads/*` hacia el backend NestJS.
-- Componentes de UI y diseño admin en `src/design/admin/`.
+## Estructura
 
-### Backend (NestJS)
-- Módulos para autenticación, usuarios, productos, categorías, pedidos y facturación.
-- Validación con `class-validator` y `ValidationPipe` global.
-- JWT con expiración de 24h y estrategia Passport.
-- Prisma ORM con `provider = "mysql"` y modelos listos para producción.
-- Servido de archivos estáticos en `/uploads` (imágenes de productos).
-- Documentación de API con Swagger en `/api/docs` y YAML en `/api/docs-yaml`.
-
-## 📁 Estructura del Proyecto
-
-```
-delicias/
-├── backend/               # NestJS + Prisma (MySQL)
-│   ├── src/               # Módulos, controladores y servicios
-│   ├── prisma/            # Esquema Prisma (MySQL)
-│   ├── uploads/           # Archivos subidos (servidos en /uploads)
-│   └── scripts/seed-admin.js
-├── frontend/              # Next.js (App Router)
-│   ├── src/app/           # Rutas y layouts
-│   ├── src/components/    # Componentes UI
-│   ├── src/context/       # Contextos (Auth, Cart)
-│   └── next.config.ts     # Rewrites hacia backend
-└── package.json           # Scripts del monorepo
+```text
+WEBNIDA/
+├── backend/
+├── frontend/
+├── delicias_bakery.sql
+└── package.json
 ```
 
-## 📋 Requisitos Previos
+## Requisitos
 
-- Node.js 18+ (recomendado 20+).
-- MySQL 8.x en local o en servicio gestionado.
-- npm (o yarn/pnpm).
+- Node.js 20 o superior
+- MySQL 8
+- npm
 
-## ⚙️ Configuración
+## Desarrollo local
 
-1) Instalar dependencias del monorepo:
+Instalar todo:
 
 ```bash
 npm run install-all
 ```
 
-2) Backend — Variables de entorno (`backend/.env`):
-
-```env
-PORT=5001
-DATABASE_URL="mysql://usuario:password@localhost:3306/delicias"
-JWT_SECRET="tu_jwt_secret_seguro"
-# Opcional para seeding del admin por defecto
-ADMIN_EMAIL="admin@delicias.com"
-ADMIN_PASSWORD="admin123"
-```
-
-3) Inicializar Prisma (si es primera vez):
-
-```bash
-cd backend
-npx prisma migrate dev
-npx prisma generate
-```
-
-4) Sembrar admin por defecto (opcional):
-
-```bash
-cd backend
-npm run seed:admin
-```
-
-## ▶️ Ejecución en Desarrollo
-
-Desde la raíz del monorepo:
+Levantar frontend y backend:
 
 ```bash
 npm run dev
 ```
 
-- Frontend (Next): http://localhost:3005
-- Backend (Nest): http://localhost:5001
+Puertos actuales:
 
-El frontend reescribe `/api/*` y `/uploads/*` hacia el backend, por lo que las llamadas `axios` a `/api/...` funcionan sin configurar dominios manualmente.
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:5001`
+- Swagger: `http://localhost:5001/api/docs`
 
-## 🧪 Pruebas
+## Variables de entorno
 
-- Backend (Nest):
-```bash
-cd backend
-npm run test
-npm run test:e2e
+Backend en `backend/.env`:
+
+```env
+DATABASE_URL="mysql://USER:PASSWORD@HOST:3306/delicias_bakery"
+JWT_SECRET="cambia-esto"
+DECOLECTA_TOKEN=""
+DECOLECTA_BASE_URL=""
+UPLOAD_PATH="uploads/"
+MAX_FILE_SIZE=5242880
+CORS_ORIGIN="http://localhost:3000"
 ```
 
-- Frontend (Next): pendiente de integrar pruebas (p. ej. Vitest/Playwright).
+Frontend en `frontend/.env.local`:
 
-## 🔐 Usuarios por Defecto
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5001
+```
 
-Si ejecutaste el seed:
-- Admin: `admin@delicias.com` / `admin123` (puedes cambiarlo en `.env`).
+## Produccion
 
-## 🧰 Tecnologías
+### Backend en Render
 
-### Frontend
-- Next.js 15, React 19, Tailwind CSS 4, Framer Motion, Lucide React, Swiper.
+- El blueprint recomendado esta en [`../render.yaml`](../render.yaml)
+- La guia operativa esta en [`../GUIA_RENDER_INFINITYFREE.md`](../GUIA_RENDER_INFINITYFREE.md)
+- El backend ya soporta `PORT` y `CORS_ORIGIN`
 
-### Backend
-- NestJS 11, Prisma, JWT, Bcrypt, Swagger.
+### Frontend en InfinityFree
 
-## 📖 Notas de Migración
+- Si mantienes el frontend en InfinityFree, debe consumir la API publica de Render
+- Usa la URL publica del backend en `NEXT_PUBLIC_API_BASE_URL`
+- Agrega el dominio del frontend en `CORS_ORIGIN`
 
-- Se eliminó la app independiente de React (CRA/Vite/React Router DOM). El frontend ahora es 100% Next.js con App Router.
-- Las rutas protegidas se manejan vía `middleware.ts` y verificación en backend.
-- Las llamadas a API se realizan contra `/api/*`, y son atendidas por NestJS mediante rewrites definidos en `next.config.ts`.
+## Notas importantes
 
-## 📄 Licencia
+- InfinityFree gratis no permite conectar MySQL remoto desde Render
+- Si quieres persistir `uploads`, en Render conviene usar disco persistente y plan `Starter`
 
-MIT.
+## Scripts utiles
 
-## 📞 Soporte
+Raiz del monorepo:
 
-Para soporte o preguntas, contacta a: soporte@delicias.com
+```bash
+npm run dev
+npm run build
+```
 
----
+Backend:
 
-¡Gracias por usar Delicias Bakery! 🥖🧁
+```bash
+cd backend
+npm run build
+npm run start:prod
+npm run seed:admin
+```
