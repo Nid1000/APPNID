@@ -3,14 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-03-2026 a las 20:31:34
+-- Tiempo de generación: 30-03-2026 a las 04:13:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-SET FOREIGN_KEY_CHECKS = 0;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -149,27 +148,6 @@ CREATE TABLE `categorias_app` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `comprobantes_app`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `comprobantes_app` (
-`id` int(11)
-,`pedido_id` int(11)
-,`comprobante_serie_id` int(11)
-,`tipo` varchar(20)
-,`serie` varchar(10)
-,`numero` int(11)
-,`numero_formateado` varchar(30)
-,`archivo_nombre` varchar(255)
-,`archivo_ruta` varchar(500)
-,`mime` varchar(100)
-,`size_bytes` int(11)
-,`created_at` datetime(3)
-);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `comprobantes`
 --
 
@@ -194,6 +172,27 @@ CREATE TABLE `comprobantes` (
 
 INSERT INTO `comprobantes` (`id`, `pedido_id`, `comprobante_serie_id`, `tipo`, `serie`, `numero`, `numero_formateado`, `archivo_nombre`, `archivo_ruta`, `mime`, `size_bytes`, `created_at`) VALUES
 (1, 21, 1, 'boleta', 'B001', 1, 'B001-00000001', 'pedido-21-B001-00000001.pdf', 'comprobantes/pedido-21-B001-00000001.pdf', 'application/pdf', 1704, '2026-03-18 19:20:48.365');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `comprobantes_app`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `comprobantes_app` (
+`id` int(11)
+,`pedido_id` int(11)
+,`comprobante_serie_id` int(11)
+,`tipo` varchar(20)
+,`serie` varchar(10)
+,`numero` int(11)
+,`numero_formateado` varchar(30)
+,`archivo_nombre` varchar(255)
+,`archivo_ruta` varchar(500)
+,`mime` varchar(100)
+,`size_bytes` int(11)
+,`created_at` datetime(3)
+);
 
 -- --------------------------------------------------------
 
@@ -233,24 +232,6 @@ CREATE TABLE `detalle_pedido_app` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `direcciones_app`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `direcciones_app` (
-`id` int(11)
-,`usuario_id` int(11)
-,`distrito_id` int(11)
-,`direccion` text
-,`distrito` varchar(120)
-,`numero_casa` varchar(20)
-,`referencia` text
-,`latitud` decimal(10,8)
-,`longitud` decimal(11,8)
-);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `direcciones`
 --
 
@@ -265,6 +246,24 @@ CREATE TABLE `direcciones` (
   `latitud` decimal(10,8) DEFAULT NULL,
   `longitud` decimal(11,8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `direcciones_app`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `direcciones_app` (
+`id` int(11)
+,`usuario_id` int(11)
+,`distrito_id` int(11)
+,`direccion` text
+,`distrito` varchar(120)
+,`numero_casa` varchar(20)
+,`referencia` text
+,`latitud` decimal(10,8)
+,`longitud` decimal(11,8)
+);
 
 -- --------------------------------------------------------
 
@@ -290,7 +289,9 @@ CREATE TABLE `login_logs` (
 INSERT INTO `login_logs` (`id`, `usuario_id`, `admin_id`, `tipo_usuario`, `ip_address`, `user_agent`, `exitoso`, `created_at`) VALUES
 (115, NULL, 1, 'admin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 1, '2026-03-18 19:18:53.591'),
 (116, NULL, 1, 'admin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 1, '2026-03-18 19:19:27.570'),
-(117, NULL, 1, 'admin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 1, '2026-03-18 19:19:56.322');
+(117, NULL, 1, 'admin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 1, '2026-03-18 19:19:56.322'),
+(118, NULL, NULL, 'usuario', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 0, '2026-03-30 02:05:31.242'),
+(119, NULL, NULL, 'usuario', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 0, '2026-03-30 02:05:39.927');
 
 -- --------------------------------------------------------
 
@@ -310,6 +311,37 @@ CREATE TABLE `notificaciones` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `notificaciones_app`
+--
+
+CREATE TABLE `notificaciones_app` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `titulo` varchar(160) NOT NULL,
+  `mensaje` text NOT NULL,
+  `tipo` varchar(40) DEFAULT NULL,
+  `audience` varchar(16) NOT NULL DEFAULT 'both',
+  `target_route` varchar(40) DEFAULT NULL,
+  `target_id` varchar(80) DEFAULT NULL,
+  `mostrada_mobile` tinyint(1) NOT NULL DEFAULT 0,
+  `mostrada_web` tinyint(1) NOT NULL DEFAULT 0,
+  `leida` tinyint(1) NOT NULL DEFAULT 0,
+  `shown_mobile_at` datetime DEFAULT NULL,
+  `shown_web_at` datetime DEFAULT NULL,
+  `read_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `notificaciones_app`
+--
+
+INSERT INTO `notificaciones_app` (`id`, `usuario_id`, `titulo`, `mensaje`, `tipo`, `audience`, `target_route`, `target_id`, `mostrada_mobile`, `mostrada_web`, `leida`, `shown_mobile_at`, `shown_web_at`, `read_at`, `created_at`) VALUES
+(1, 11, 'Nuevo producto', 'Ya esta disponible: Torta de maracuyá', 'new_product', 'both', 'store', '21', 0, 0, 0, NULL, NULL, NULL, '2026-03-29 20:12:32');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pagos`
 --
 
@@ -321,6 +353,21 @@ CREATE TABLE `pagos` (
   `estado` enum('pendiente','pagado') DEFAULT 'pendiente',
   `fecha` datetime(3) NOT NULL DEFAULT current_timestamp(3)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `pagos_app`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `pagos_app` (
+`id` int(11)
+,`pedido_id` int(11)
+,`metodo` enum('yape','tarjeta','contra_entrega')
+,`monto` decimal(10,2)
+,`estado` enum('pendiente','pagado')
+,`fecha` datetime(3)
+);
 
 -- --------------------------------------------------------
 
@@ -384,21 +431,6 @@ CREATE TABLE `pedidos_app` (
 ,`id_direccion` int(11)
 ,`total` decimal(10,2)
 ,`estado` enum('pendiente','confirmado','en_preparacion','listo','entregado','cancelado')
-,`fecha` datetime(3)
-);
-
--- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `pagos_app`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `pagos_app` (
-`id` int(11)
-,`pedido_id` int(11)
-,`metodo` enum('yape','tarjeta','contra_entrega')
-,`monto` decimal(10,2)
-,`estado` enum('pendiente','pagado')
 ,`fecha` datetime(3)
 );
 
@@ -473,21 +505,15 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `categoria_id`, `imagen`, `stock`, `destacado`, `activo`, `created_at`, `updated_at`) VALUES
-(1, 'Producto legado 1', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 12.00, 1, NULL, 100, 0, 1, '2026-03-18 18:50:01.000', '2026-03-18 18:50:01.000'),
-(2, 'Producto legado 2', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 12.00, 1, NULL, 100, 0, 1, '2026-03-18 18:50:02.000', '2026-03-18 18:50:02.000'),
-(3, 'Producto legado 3', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 123.00, 4, NULL, 100, 0, 1, '2026-03-18 18:50:03.000', '2026-03-18 18:50:03.000'),
-(4, 'Producto legado 4', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 12.01, 4, NULL, 100, 0, 1, '2026-03-18 18:50:04.000', '2026-03-18 18:50:04.000'),
-(9, 'Producto legado 9', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 12.00, 1, NULL, 100, 0, 1, '2026-03-18 18:50:09.000', '2026-03-18 18:50:09.000'),
-(10, 'Producto legado 10', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 3.00, 1, NULL, 100, 0, 1, '2026-03-18 18:50:10.000', '2026-03-18 18:50:10.000'),
-(11, 'Producto legado 11', 'Producto reconstruido para mantener integridad referencial con pedido_detalles.', 13.00, 1, NULL, 100, 0, 1, '2026-03-18 18:50:11.000', '2026-03-18 18:50:11.000'),
-(13, 'ALFAJOR', NULL, 6.00, 4, 'productos/producto-1773861080819-513132247.jpg', 10, 0, 1, '2026-03-18 19:11:20.830', '2026-03-18 19:11:20.830'),
-(14, 'CHANCAY', NULL, 4.00, 1, 'productos/producto-1773861110947-897813601.png', 10, 1, 1, '2026-03-18 19:11:50.953', '2026-03-18 19:11:50.953'),
-(15, 'PAN INTEGRAL', NULL, 7.00, 1, 'productos/producto-1773861170202-860380929.png', 5, 0, 1, '2026-03-18 19:12:19.875', '2026-03-18 19:12:50.207'),
-(16, 'KARAMANDUKAS', NULL, 7.00, 4, 'productos/producto-1773861224236-371990791.png', 24, 0, 1, '2026-03-18 19:13:44.240', '2026-03-18 19:13:44.240'),
-(17, 'PAN DE MOLDE', NULL, 12.00, 1, 'productos/producto-1773861273034-460152199.png', 12, 0, 1, '2026-03-18 19:14:18.714', '2026-03-18 19:14:33.041'),
-(18, 'PAN INTEGRAL BLANCO', NULL, 9.00, 1, 'productos/producto-1773861324089-292209327.png', 9, 0, 1, '2026-03-18 19:15:24.093', '2026-03-18 19:15:24.093'),
-(19, 'TOSTADAS', NULL, 7.50, 3, 'productos/producto-1773861365971-396169824.png', 11, 0, 1, '2026-03-18 19:16:05.975', '2026-03-18 19:16:05.975'),
-(20, 'torta de chocolate', NULL, 55.00, 5, 'productos/producto-1773862190855-798742758.jpg', 5, 0, 1, '2026-03-18 19:29:50.862', '2026-03-18 19:29:50.862');
+(13, 'ALFAJOR', NULL, 6.00, 4, 'productos/producto-1774836561285-71876121.png', 10, 0, 1, '2026-03-18 19:11:20.830', '2026-03-30 02:09:21.290'),
+(14, 'CHANCAY', NULL, 4.00, 1, 'productos/producto-1774836552413-654384992.png', 10, 1, 1, '2026-03-18 19:11:50.953', '2026-03-30 02:09:12.422'),
+(15, 'PAN INTEGRAL', NULL, 7.00, 1, 'productos/producto-1774836542036-182206634.png', 5, 0, 1, '2026-03-18 19:12:19.875', '2026-03-30 02:09:02.040'),
+(16, 'KARAMANDUKAS', NULL, 7.00, 4, 'productos/producto-1774836534643-640949819.png', 24, 0, 1, '2026-03-18 19:13:44.240', '2026-03-30 02:08:54.648'),
+(17, 'PAN DE MOLDE', NULL, 12.00, 1, 'productos/producto-1774836527604-548541520.png', 12, 0, 1, '2026-03-18 19:14:18.714', '2026-03-30 02:08:47.610'),
+(18, 'PAN INTEGRAL BLANCO', NULL, 9.00, 1, 'productos/producto-1774836517821-878707417.png', 9, 0, 1, '2026-03-18 19:15:24.093', '2026-03-30 02:08:37.826'),
+(19, 'TOSTADAS', NULL, 7.50, 3, 'productos/producto-1774836505031-334671753.png', 11, 0, 1, '2026-03-18 19:16:05.975', '2026-03-30 02:08:25.037'),
+(20, 'torta de chocolate', NULL, 55.00, 5, 'productos/producto-1774836511285-642906417.jpg', 5, 0, 1, '2026-03-18 19:29:50.862', '2026-03-30 02:08:31.290'),
+(21, 'Torta de maracuyá', NULL, 60.00, 5, 'productos/producto-1774836752484-776669027.png', 7, 1, 1, '2026-03-30 02:12:32.491', '2026-03-30 02:12:32.491');
 
 -- --------------------------------------------------------
 
@@ -509,19 +535,6 @@ CREATE TABLE `productos_app` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `seguimiento_app`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `seguimiento_app` (
-`id` int(11)
-,`pedido_id` int(11)
-,`estado` enum('Preparando','En camino','Entregado')
-,`fecha` datetime(3)
-);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `seguimiento`
 --
 
@@ -531,6 +544,19 @@ CREATE TABLE `seguimiento` (
   `estado` enum('Preparando','En camino','Entregado') DEFAULT NULL,
   `fecha` datetime(3) NOT NULL DEFAULT current_timestamp(3)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `seguimiento_app`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `seguimiento_app` (
+`id` int(11)
+,`pedido_id` int(11)
+,`estado` enum('Preparando','En camino','Entregado')
+,`fecha` datetime(3)
+);
 
 -- --------------------------------------------------------
 
@@ -615,7 +641,7 @@ CREATE TABLE `usuarios_app` (
 --
 DROP TABLE IF EXISTS `categorias_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `categorias_app`  AS SELECT `c`.`id` AS `id_categoria`, `c`.`nombre` AS `nombre`, `c`.`activo` AS `estado` FROM `categorias` AS `c` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `categorias_app`  AS SELECT `c`.`id` AS `id_categoria`, `c`.`nombre` AS `nombre`, `c`.`activo` AS `estado` FROM `categorias` AS `c` ;
 
 -- --------------------------------------------------------
 
@@ -624,7 +650,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `categorias_app`  AS SELECT
 --
 DROP TABLE IF EXISTS `comprobantes_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `comprobantes_app`  AS SELECT `c`.`id` AS `id`, `c`.`pedido_id` AS `pedido_id`, `c`.`comprobante_serie_id` AS `comprobante_serie_id`, `c`.`tipo` AS `tipo`, `c`.`serie` AS `serie`, `c`.`numero` AS `numero`, `c`.`numero_formateado` AS `numero_formateado`, `c`.`archivo_nombre` AS `archivo_nombre`, `c`.`archivo_ruta` AS `archivo_ruta`, `c`.`mime` AS `mime`, `c`.`size_bytes` AS `size_bytes`, `c`.`created_at` AS `created_at` FROM `comprobantes` AS `c` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `comprobantes_app`  AS SELECT `c`.`id` AS `id`, `c`.`pedido_id` AS `pedido_id`, `c`.`comprobante_serie_id` AS `comprobante_serie_id`, `c`.`tipo` AS `tipo`, `c`.`serie` AS `serie`, `c`.`numero` AS `numero`, `c`.`numero_formateado` AS `numero_formateado`, `c`.`archivo_nombre` AS `archivo_nombre`, `c`.`archivo_ruta` AS `archivo_ruta`, `c`.`mime` AS `mime`, `c`.`size_bytes` AS `size_bytes`, `c`.`created_at` AS `created_at` FROM `comprobantes` AS `c` ;
 
 -- --------------------------------------------------------
 
@@ -633,7 +659,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `comprobantes_app`  AS SELE
 --
 DROP TABLE IF EXISTS `detalle_pedido_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `detalle_pedido_app`  AS SELECT `d`.`id` AS `id_detalle`, `d`.`pedido_id` AS `id_pedido`, `d`.`producto_id` AS `id_producto`, `d`.`cantidad` AS `cantidad`, `d`.`subtotal` AS `subtotal` FROM `pedido_detalles` AS `d` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `detalle_pedido_app`  AS SELECT `d`.`id` AS `id_detalle`, `d`.`pedido_id` AS `id_pedido`, `d`.`producto_id` AS `id_producto`, `d`.`cantidad` AS `cantidad`, `d`.`subtotal` AS `subtotal` FROM `pedido_detalles` AS `d` ;
 
 -- --------------------------------------------------------
 
@@ -642,16 +668,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `detalle_pedido_app`  AS SE
 --
 DROP TABLE IF EXISTS `direcciones_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `direcciones_app`  AS SELECT `d`.`id` AS `id`, `d`.`usuario_id` AS `usuario_id`, `d`.`distrito_id` AS `distrito_id`, `d`.`direccion` AS `direccion`, `d`.`distrito` AS `distrito`, `d`.`numero_casa` AS `numero_casa`, `d`.`referencia` AS `referencia`, `d`.`latitud` AS `latitud`, `d`.`longitud` AS `longitud` FROM `direcciones` AS `d` ;
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `pedidos_app`
---
-DROP TABLE IF EXISTS `pedidos_app`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `pedidos_app`  AS SELECT `pe`.`id` AS `id_pedido`, `pe`.`usuario_id` AS `id_usuario`, `pe`.`direccion_id` AS `id_direccion`, `pe`.`total` AS `total`, `pe`.`estado` AS `estado`, `pe`.`created_at` AS `fecha` FROM `pedidos` AS `pe` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `direcciones_app`  AS SELECT `d`.`id` AS `id`, `d`.`usuario_id` AS `usuario_id`, `d`.`distrito_id` AS `distrito_id`, `d`.`direccion` AS `direccion`, `d`.`distrito` AS `distrito`, `d`.`numero_casa` AS `numero_casa`, `d`.`referencia` AS `referencia`, `d`.`latitud` AS `latitud`, `d`.`longitud` AS `longitud` FROM `direcciones` AS `d` ;
 
 -- --------------------------------------------------------
 
@@ -660,7 +677,16 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `pedidos_app`  AS SELECT `p
 --
 DROP TABLE IF EXISTS `pagos_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `pagos_app`  AS SELECT `p`.`id` AS `id`, `p`.`pedido_id` AS `pedido_id`, `p`.`metodo` AS `metodo`, `p`.`monto` AS `monto`, `p`.`estado` AS `estado`, `p`.`fecha` AS `fecha` FROM `pagos` AS `p` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pagos_app`  AS SELECT `p`.`id` AS `id`, `p`.`pedido_id` AS `pedido_id`, `p`.`metodo` AS `metodo`, `p`.`monto` AS `monto`, `p`.`estado` AS `estado`, `p`.`fecha` AS `fecha` FROM `pagos` AS `p` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `pedidos_app`
+--
+DROP TABLE IF EXISTS `pedidos_app`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pedidos_app`  AS SELECT `pe`.`id` AS `id_pedido`, `pe`.`usuario_id` AS `id_usuario`, `pe`.`direccion_id` AS `id_direccion`, `pe`.`total` AS `total`, `pe`.`estado` AS `estado`, `pe`.`created_at` AS `fecha` FROM `pedidos` AS `pe` ;
 
 -- --------------------------------------------------------
 
@@ -669,7 +695,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `pagos_app`  AS SELECT `p`.
 --
 DROP TABLE IF EXISTS `productos_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `productos_app`  AS SELECT `p`.`id` AS `id_producto`, `p`.`categoria_id` AS `id_categoria`, `p`.`nombre` AS `nombre`, `p`.`descripcion` AS `descripcion`, `p`.`precio` AS `precio`, `p`.`imagen` AS `imagen`, `p`.`stock` AS `stock`, `p`.`activo` AS `estado` FROM `productos` AS `p` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `productos_app`  AS SELECT `p`.`id` AS `id_producto`, `p`.`categoria_id` AS `id_categoria`, `p`.`nombre` AS `nombre`, `p`.`descripcion` AS `descripcion`, `p`.`precio` AS `precio`, `p`.`imagen` AS `imagen`, `p`.`stock` AS `stock`, `p`.`activo` AS `estado` FROM `productos` AS `p` ;
 
 -- --------------------------------------------------------
 
@@ -678,7 +704,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `productos_app`  AS SELECT 
 --
 DROP TABLE IF EXISTS `seguimiento_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `seguimiento_app`  AS SELECT `s`.`id` AS `id`, `s`.`pedido_id` AS `pedido_id`, `s`.`estado` AS `estado`, `s`.`fecha` AS `fecha` FROM `seguimiento` AS `s` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `seguimiento_app`  AS SELECT `s`.`id` AS `id`, `s`.`pedido_id` AS `pedido_id`, `s`.`estado` AS `estado`, `s`.`fecha` AS `fecha` FROM `seguimiento` AS `s` ;
 
 -- --------------------------------------------------------
 
@@ -687,7 +713,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `seguimiento_app`  AS SELEC
 --
 DROP TABLE IF EXISTS `usuarios_app`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `usuarios_app`  AS SELECT `u`.`id` AS `id_usuario`, `u`.`nombre` AS `nombre`, `u`.`email` AS `correo`, `u`.`password` AS `password`, `u`.`telefono` AS `telefono`, 'cliente' AS `rol`, `u`.`activo` AS `estado`, `u`.`created_at` AS `fecha_registro` FROM `usuarios` AS `u` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `usuarios_app`  AS SELECT `u`.`id` AS `id_usuario`, `u`.`nombre` AS `nombre`, `u`.`email` AS `correo`, `u`.`password` AS `password`, `u`.`telefono` AS `telefono`, 'cliente' AS `rol`, `u`.`activo` AS `estado`, `u`.`created_at` AS `fecha_registro` FROM `usuarios` AS `u` ;
 
 --
 -- Índices para tablas volcadas
@@ -760,6 +786,14 @@ ALTER TABLE `login_logs`
 ALTER TABLE `notificaciones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_notif_usuario` (`usuario_id`);
+
+--
+-- Indices de la tabla `notificaciones_app`
+--
+ALTER TABLE `notificaciones_app`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_notif_usuario_mobile` (`usuario_id`,`mostrada_mobile`,`created_at`),
+  ADD KEY `idx_notif_usuario_web` (`usuario_id`,`mostrada_web`,`created_at`);
 
 --
 -- Indices de la tabla `pagos`
@@ -841,7 +875,7 @@ ALTER TABLE `calificaciones`
 -- AUTO_INCREMENT de la tabla `catalogo_distritos_huancayo`
 --
 ALTER TABLE `catalogo_distritos_huancayo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=728;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -871,13 +905,19 @@ ALTER TABLE `direcciones`
 -- AUTO_INCREMENT de la tabla `login_logs`
 --
 ALTER TABLE `login_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `notificaciones_app`
+--
+ALTER TABLE `notificaciones_app`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
@@ -901,7 +941,7 @@ ALTER TABLE `pedido_detalles`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `seguimiento`
@@ -949,8 +989,8 @@ ALTER TABLE `comprobantes`
 -- Filtros para la tabla `direcciones`
 --
 ALTER TABLE `direcciones`
-  ADD CONSTRAINT `fk_direcciones_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_direcciones_distrito` FOREIGN KEY (`distrito_id`) REFERENCES `catalogo_distritos_huancayo` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_direcciones_distrito` FOREIGN KEY (`distrito_id`) REFERENCES `catalogo_distritos_huancayo` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_direcciones_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `login_logs`
@@ -975,9 +1015,9 @@ ALTER TABLE `pagos`
 -- Filtros para la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD CONSTRAINT `pedidos_usuario_id_fkey` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_pedidos_direccion` FOREIGN KEY (`direccion_id`) REFERENCES `direcciones` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_pedidos_distrito_entrega` FOREIGN KEY (`distrito_entrega_id`) REFERENCES `catalogo_distritos_huancayo` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_pedidos_distrito_entrega` FOREIGN KEY (`distrito_entrega_id`) REFERENCES `catalogo_distritos_huancayo` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `pedidos_usuario_id_fkey` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `pedido_detalles`
@@ -1016,7 +1056,6 @@ ALTER TABLE `soporte`
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `fk_usuarios_distrito` FOREIGN KEY (`distrito_id`) REFERENCES `catalogo_distritos_huancayo` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
-SET FOREIGN_KEY_CHECKS = 1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
